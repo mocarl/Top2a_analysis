@@ -14,41 +14,35 @@ library(plotrix)
 library(smacpod)
 
 
-
-
-## Set path to image csv folder
-setwd("/Volumes/Carl_Ext_2/EXPERIMENTS/20220409")
-
-### Import csv files with statistics
-for (q in list.dirs(getwd(), recursive = FALSE)){
-file.list <- list.files(path = paste0(q),  # Identify all XLSX files
-                       pattern = "results.xlsx", full.names = TRUE, recursive = FALSE)
-
-## List all xlsx file recursively for all conditions
-name = sprintf("data%d", 1:length(file.list)) 
+## Make temp copies of each data set for simple scripting
+var = setdiff(ls(), lsf.str())
+name = sprintf("data%d", 1:length(var)) 
 ## Reformat strings to generate comprehensible variable names matching xlsx files
-for(k in 1:length(file.list)){
-  df = data.frame()
-  a <- loadWorkbook(file.list[k])
-  sheetNames <- sheets(a) 
-  for(i in 1:length(sheetNames)){
-    #assign(sheetNames[i],readWorkbook(a,sheet = i))
-    df = rbind(df, readWorkbook(a,sheet = i))
-  }                         # Store all files in list
-  assign(name[k], df)
+for(k in 1:length(var)){
+  assign(name[k], get(var[k]))
 }
 
 ## Get labels for all images
 data1_labels = unique(data1[["Label"]])
 data2_labels = unique(data2[["Label"]])
-## Plot both channels for each image based on centre of mass
-for (i in 1:length(sheetNames)) {
-  plot(data2[data2$Label == data2_labels[i],]$XM,data2[data2$Label == data2_labels[i],]$YM, pch = 20, col = "Green")
-  points(data1[data1$Label == data1_labels[i],]$XM,data1[data1$Label == data1_labels[i],]$YM, pch = 20, col = "Red")
+
+if(length(data1_labels)>length(data2_labels)){
+  data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".czi"), "[", 1), collapse = "|"))]
+} else {
+  data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".czi"), "[", 1), collapse = "|"))]
 }
 
+## Plot both channels for each image based on centre of mass
+
+  for (i in 1:length(labels)) {
+    plot(data2[data2$Label == data2_labels[i],]$XM,data2[data2$Label == data2_labels[i],]$YM, pch = 19, col = "Green")
+    points(data1[data1$Label == data1_labels[i],]$XM,data1[data1$Label == data1_labels[i],]$YM, pch = 20, col = "Red")
+  }
+
+
+
 coloc.part = c()
-for (n in 1:length(sheetNames)) {
+for (n in 1:length(data1_labels)) {
   ### Points with intersecting circles r are assumed to be likely colocalised
   temp.mask = matrix(nrow = dim(data2[data2$Label == data2_labels[n],])[1], ncol = dim(data1[data1$Label == data1_labels[n],])[1])
   for (i in 1:dim(data1[data1$Label == data1_labels[n],])[1]) {
@@ -74,7 +68,7 @@ for (n in 1:length(sheetNames)) {
   }
 
 sum(coloc.part)/dim(data1)[1]*100
-}
+
 
 ### Filter data
 data.temp = data[[1]] %>% 

@@ -17,13 +17,11 @@ library(tidyverse)
 library(hrbrthemes)
 library(viridis)
 ####
-source("Scripts/Functions/copy_data.R")
-source("Scripts/Functions/data_consolidation.R")
-source("Scripts/Functions/import_xlsx.R")
-copy_data(from = "/Volumes/Carl_Ext_2/EXPERIMENTS/20220409", ext = ".xlsx")
-data_consolidation(path= "/Users/mocarl/Documents/CarlMöller_Phd/Projects/TOP2A/analysis", C0 =  "Top2a"  , C1 = "YOYO1" )
 
-import_xlsx("Data","results")
+source("Scripts/Functions/import_xlsx.R")
+
+
+import_xlsx("Data",c("_ATP","results", "sc"))
 
 title = "pFLIP relaxed without Top2a"
   
