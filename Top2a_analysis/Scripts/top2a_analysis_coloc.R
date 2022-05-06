@@ -25,13 +25,20 @@ for(k in 1:length(var)){
 ## Get labels for all images
 data1_labels = unique(data1[["Label"]])
 data2_labels = unique(data2[["Label"]])
+
+if(length(data1_labels)>length(data2_labels)){
+  data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".czi"), "[", 1), collapse = "|"))]
+} else {
+  data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".czi"), "[", 1), collapse = "|"))]
+}
+
 ## Plot both channels for each image based on centre of mass
-if(length(data1_labels)==length(data2_labels)){
-  for (i in 1:length(data1_labels)) {
+
+  for (i in 1:length(labels)) {
     plot(data2[data2$Label == data2_labels[i],]$XM,data2[data2$Label == data2_labels[i],]$YM, pch = 19, col = "Green")
     points(data1[data1$Label == data1_labels[i],]$XM,data1[data1$Label == data1_labels[i],]$YM, pch = 20, col = "Red")
   }
-}
+
 
 
 coloc.part = c()

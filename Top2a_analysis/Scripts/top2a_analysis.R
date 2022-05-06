@@ -21,7 +21,7 @@ library(viridis)
 source("Scripts/Functions/import_xlsx.R")
 
 
-import_xlsx("Data",c("no","ATP","results", "rel"))
+import_xlsx("Data",c("_ATP","results", "sc"))
 
 title = "pFLIP relaxed without Top2a"
   
