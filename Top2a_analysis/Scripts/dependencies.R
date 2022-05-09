@@ -2,7 +2,7 @@
 ## Script contains all dependencies need to run scripts/functions with project
 ## Author: Carl Möller mocarl@chalmers.se
 
-### Dependencies
+### Package dependencies
 library("plyr")                                     # Load plyr package
 library("dplyr")                                    # Load dplyr package
 library("readr")                                    # Load readr package
@@ -19,3 +19,11 @@ library(stringr)
 library(plotrix)
 library(smacpod)
 ####
+
+### Function depedencies
+
+source("Scripts/Functions/import_xlsx.R")
+source("Scripts/Functions/mass_coloc.R")
+source("Scripts/Functions/copy_data.R")
+source("Scripts/Functions/move_outlines.R")
+source("Scripts/Functions/data_consolidation.R")
