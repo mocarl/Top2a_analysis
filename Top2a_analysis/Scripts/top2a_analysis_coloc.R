@@ -13,6 +13,6 @@ import_xlsx("Data",c("no","results", "sc"))
 ## See outline images with particle mask for true geometry of detected particles.
 
 mass_coloc("2022-05-04-sc pFLIP-FUSE + 10 nM TOP2A no ATP_Top2a_results","2022-05-04-sc pFLIP-FUSE + 10 nM TOP2A no ATP_YOYO1_results","pFLIP_FUSE_supercoiled_10nM_Top2a_noATP")
+coloc_particles("2022-05-04-sc pFLIP-FUSE + 10 nM TOP2A no ATP_Top2a_results","2022-05-04-sc pFLIP-FUSE + 10 nM TOP2A no ATP_YOYO1_results","Data/2022-05-04-sc pFLIP-FUSE + 10 nM TOP2A no ATP")
 
-
-
+import_csv("Data/2022-05-04-sc pFLIP-FUSE + 10 nM TOP2A no ATP")

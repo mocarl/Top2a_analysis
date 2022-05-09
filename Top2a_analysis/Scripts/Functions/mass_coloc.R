@@ -75,6 +75,7 @@ for (n in 1:length(data1_labels)) {
 stats = rbind(stats, data.frame(Image = "Total", channel1 = sum(stats$channel1), channel2 = sum(stats$channel2), Colocalised = sum(coloc.part),Relative_coloc = sum(coloc.part)/sum(stats$channel1)*100 ))
 write_delim(stats,file=paste0("Output/",output_name,"/",output_name,"_","_coloc_statistics",".csv"), delim = ",")
 sprintf("Relative colocalisation: %0.f%%", sum(coloc.part)/dim(data1)[1]*100)
+return(output_name)
 }
 
 
