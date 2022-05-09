@@ -76,3 +76,10 @@ stats = rbind(stats, data.frame(Image = "Total", channel1 = sum(stats$channel1),
 write_delim(stats,file=paste0("Output/",output_name,"/",output_name,"_","_coloc_statistics",".csv"), delim = ",")
 sprintf("Relative colocalisation: %0.f%%", sum(coloc.part)/dim(data1)[1]*100)
 }
+
+
+
+
+### Plot particles as a circle based on area and centre of mass
+#circles.plot(cbind(data[[1]][["XM"]],data[[1]][["YM"]]),sqrt(data[[1]][["Area"]]/pi))
+

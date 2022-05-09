@@ -5,7 +5,7 @@
 
 
 import_xlsx("Data",c("_ATP","results", "sc"))
-
+import_csv("/Users/mocarl/Documents/GitHub/Top2a_analysis/Top2a_analysis/Output")
 title = "pFLIP relaxed without Top2a"
   
     ### Data exploration
