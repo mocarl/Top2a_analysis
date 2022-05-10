@@ -26,7 +26,7 @@ temp = cbind(temp, data.frame(Condition = c("ATP", "no ATP", "ATP", "no ATP")))
 dir.create(paste("Output/","Graphs"))
 dir.create(paste("Output/","Graphs/","pFLIP_FUSE"))
 
-tiff(file=paste0("Output/","Graphs/","pFLIP_FUSE/","pFLIP-FUSE_10nM_TOP2",".tiff"), width = 5, height = 5, units = "in", res = 300, pointsize = 7)
+tiff(file=paste("Output/","Graphs/","pFLIP_FUSE/","pFLIP-FUSE_10nM_TOP2",".tiff"), width = 5, height = 5, units = "in", res = 300, pointsize = 7)
 ggplot(temp, aes(x=Image, y=Relative_coloc)) +
   geom_bar(aes(fill=Condition),width = 0.7,position = position_dodge(0.5),
            stat = "identity", color= "white")+
