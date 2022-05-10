@@ -3,10 +3,10 @@
 ## Author: Carl Möller mocarl@chalmers.se
 
 ### Import and arrange data into one dataframe
-import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_supercoiled_10nM_Top2a_noATP")
-import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_supercoiled_10nM_Top2a_ATP")
-rm(pFLIP_FUSE_supercoiled_10nM_Top2a_noATP__coloc_statistics)
-rm(pFLIP_FUSE_supercoiled_10nM_Top2a_ATP__coloc_statistics)
+import_csv("Output/pFLIP/pFLIP_relaxed_10nM_Top2a_noATP")
+import_csv("Output/pFLIP/pFLIP_relaxed_10nM_Top2a_ATP")
+rm(pFLIP_relaxed_10nM_Top2a_noATP__coloc_statistics)
+rm(pFLIP_relaxed_10nM_Top2a_ATP__coloc_statistics)
 var = setdiff(ls(), lsf.str())
 temp.data = data.frame()
 for (i in var){
@@ -14,12 +14,12 @@ for (i in var){
 }
 
 ## Generate ridgeplot with density and histogram overlay
-tiff(file=paste("Output/","Graphs/","pFLIP_FUSE/","pFLIP_FUSE_supercoiled_10nM_TOP2_area_dist",".tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+tiff(file=paste("Output/","Graphs/","pFLIP/","pFLIP_relaxed_10nM_TOP2_area_dist",".tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
 ggplot(temp.data, aes(x = Area, y = Experiment, fill = Coloc, height=..density..,scale=1)) +
   geom_density_ridges(stat = "binline", bins=250,
                       draw_baseline = F, alpha = 1,lwd=0.1 )+
   geom_density_ridges(quantile_lines = TRUE, quantiles = 2, rel_min_height = 0.01, alpha = 0.4, lwd=0.3, colour="black")+
-  labs(title = 'Particle area distribution', subtitle = "10nM pFLIP_FUSE supercoiled w/wo ATP") +
+  labs(title = 'Particle area distribution', subtitle = "10nM pFLIP relaxed w/wo ATP") +
   theme(
     legend.position="right",
     panel.spacing = unit(0.1, "lines"),
@@ -29,7 +29,7 @@ ggplot(temp.data, aes(x = Area, y = Experiment, fill = Coloc, height=..density..
   xlab("Particle area histogram/density with median") +
   ylab("Condition")+
   xlim(0,5)+
-  scale_y_discrete(breaks=var,labels=c("pFLIP-FUSE-supercoiled \nTop2a- ATP","pFLIP-FUSE-supercoiled \nYOYO1 - ATP","pFLIP-FUSE-supercoiled \nTop2a - no ATP","pFLIP-FUSE-supercoiled \nYOYO1 - no ATP"))+
+  scale_y_discrete(breaks=var,labels=c("pFLIP-relaxed \nTop2a- ATP","pFLIP-relaxed \nYOYO1 - ATP","pFLIP-relaxed \nTop2a - no ATP","pFLIP-relaxed \nYOYO1 - no ATP"))+
   scale_fill_manual(
     name = "Population", values = c("#E1BE6A", "#40B0A6"),
     labels = c(paste0("Non-colocalised"),paste0("Colocalised")))
