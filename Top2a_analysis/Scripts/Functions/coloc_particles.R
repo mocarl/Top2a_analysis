@@ -16,8 +16,10 @@ coloc_particles <- function(channel1,channel2,output_path)
       
       if(length(data1_labels)>length(data2_labels)){
         data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".czi"), "[", 1), collapse = "|"))]
+        data1=data1[data1$Label %in% data1_labels,]
       } else {
         data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".czi"), "[", 1), collapse = "|"))]
+        data2=data2[data2$Label %in% data2_labels,]
       }
       data1["Coloc"] = NA
       data2["Coloc"] = NA
@@ -47,6 +49,7 @@ coloc_particles <- function(channel1,channel2,output_path)
       data2["Coloc"] = data2.temp > 0
       write_csv(data1, file = paste0(output_path,"/",p,"_coloc_pop.csv"))
       write_csv(data2, file = paste0(output_path,"/",j,"_coloc_pop.csv"))
+      
       }
   }
 
