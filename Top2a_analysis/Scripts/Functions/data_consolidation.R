@@ -22,7 +22,7 @@
 
 data_consolidation <- function(path, C0, C1){
 
-
+if(length(list.files(path = path,pattern = ".csv", full.names = TRUE))<1){
 for (i in list.dirs(path, recursive = FALSE)){
   if(length(list.files(path = paste0(i),pattern = ".csv", full.names = TRUE))>1){
     
@@ -56,6 +56,34 @@ for (i in list.dirs(path, recursive = FALSE)){
     next
   }
 }
-
+} else {
+  i = path
+  #### Load and concatenate results csv files. OBS: files are removed after concatenation
+  data_1 <- list.files(path = paste0(i),  # Identify all CSV files
+                       pattern = ".+C=1.+csv", full.names = TRUE) %>% 
+    lapply(read_csv)                              # Store all files in list
+  write.xlsx(data_1,paste0(i,"/",basename(i),"_",C1,"_results.xlsx")) ### Concatenate input to single xlsx
+  file.remove(list.files(path = paste0(i), pattern = ".+C=1.+csv", full.names = TRUE))
+  
+  data_0 <- list.files(path = paste0(i),  # Identify all CSV files
+                       pattern = ".+C=0.+csv", full.names = TRUE) %>% 
+    lapply(read_csv)                              # Store all files in list
+  write.xlsx(data_0,paste0(i,"/",basename(i), "_",C0,"_results.xlsx")) ### Concatenate input to single xlsx
+  file.remove(list.files(path = paste0(i), pattern = ".+C=0.+csv", full.names = TRUE))
+  
+  #### Load and concatenate results csv files. OBS: files are removed after concatenation
+  data_1 <- list.files(path = paste0(i),  # Identify all CSV files
+                       pattern = ".+C=1.+Summary.xls", full.names = TRUE) %>% 
+    lapply(read_table)                            # Store all files in list
+  write.xlsx(data_1,paste0(i,"/",basename(i), "_",C1,"_summary.xlsx"))   # Concatenate input to single xlsx
+  file.remove(list.files(path = paste0(i), pattern = ".+C=1.+Summary.xls", full.names = TRUE))
+  
+  data_0 <- list.files(path = paste0(i),  # Identify all CSV files
+                       pattern = ".+C=0.+Summary.xls", full.names = TRUE) %>% 
+    lapply(read_table)                          # Store all files in list
+  write.xlsx(data_0,paste0(i,"/",basename(i), "_",C0,"_summary.xlsx")) # Concatenate input to single xlsx
+  file.remove(list.files(path = paste0(i), pattern = ".+C=0.+Summary.xls", full.names = TRUE))
+  ####
+}
 }
 
