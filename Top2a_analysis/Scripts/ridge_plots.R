@@ -3,8 +3,8 @@
 ## Author: Carl Möller mocarl@chalmers.se
 
 ### Import and arrange data into one dataframe
-import_csv("Output/pFLIP/pFLIP_relaxed_10nM_Top2a_noATP")
-import_csv("Output/pFLIP/pFLIP_supercoiled_10nM_Top2a_noATP")
+import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_supercoiled_10nM_Top2a")
+import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_relaxed_10nM_Top2a")
 import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_relaxed_10nM_Top2a_noATP")
 import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_supercoiled_10nM_Top2a_noATP")
 rm(pFLIP_relaxed_10nM_Top2a_noATP__coloc_statistics)
@@ -15,14 +15,8 @@ var = setdiff(ls(), lsf.str())
 
 temp.data = data.frame()
 plasmid=c("pFLIP-supercoiled",
-          "pFLIP-supercoiled",
-          "pFLIP-relaxed",
-          "pFLIP-relaxed",
-          "pFLIP-FUSE-supercoiled",
-          "pFLIP-FUSE-supercoiled",
-          "pFLIP-FUSE-relaxed",
-          "pFLIP-FUSE-relaxed")
-temp.data = data.frame()
+          "pFLIP-supercoiled")
+
 for (i in 1:length(var)){
   temp.data = rbind(temp.data, data.frame(get(paste0(var[i])),Experiment = paste0(var[i]), Plasmid=paste(plasmid[i])))
 }
