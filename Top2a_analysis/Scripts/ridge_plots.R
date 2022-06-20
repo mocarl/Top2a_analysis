@@ -18,9 +18,9 @@ plasmid=c("pFLIP-supercoiled",
           "pFLIP-supercoiled")
 
 for (i in 1:length(var)){
-  temp.data = rbind(temp.data, data.frame(get(paste0(var[i])),Experiment = paste0(var[i]), Plasmid=paste(plasmid[i])))
+  temp.data = rbind(temp.data, data.frame(get(paste0(var[i])),Experiment = paste0(var[i])))
 }
-temp.data$Experiment = factor(temp.data$Experiment, levels = temp.data$Experiment)
+temp.data$Experiment = factor(temp.data$Experiment, levels = unique(temp.data$Experiment))
 ## Generate ridgeplot with density and histogram overlay
 
 #Define labels for y-axis ticks
@@ -33,14 +33,18 @@ ylab=c("pFLIP-supercoiled \nYOYO-1",
        "pFLIP-FUSE-relaxed \nYOYO-1",
        "pFLIP-FUSE-relaxed \nTop2\u03b1")
 
+
+#Filter data
+q = quantile(temp.data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
+temp = temp.data[temp.data$Area>q[1] & temp.data$Circ.>0.5,] # Generate temp data set that can be altered until right filter settings are found
 ### Area distribution with median
 tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 2/","ridge_plot_area_noncolocpop.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
 ggplot(temp.data[temp.data$Coloc == FALSE,], aes(x = Area, fill = Experiment, y = Plasmid, height=..density..,scale=0.9)) +
-  geom_density_ridges(stat = "binline", bins=150,
-                      draw_baseline = F, alpha = 1,lwd=0.1 )+
+  geom_density_ridges(stat = "binline", bins=100,
+                      draw_baseline = F, alpha = 1,lwd=0.2 )+
   geom_density_ridges(quantile_lines = TRUE, quantiles = 2, rel_min_height = 0.001, alpha = 0.4, lwd=0.3, colour="black")+
   #facet_wrap(~Plasmid, scale="free")
-  labs(title = 'Particle area colocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - w/o ATP") +
+  labs(title = 'Particle area noncolocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - w/o ATP") +
   theme(
     legend.position="right",
     panel.spacing = unit(0.1, "lines"),
@@ -50,7 +54,7 @@ ggplot(temp.data[temp.data$Coloc == FALSE,], aes(x = Area, fill = Experiment, y 
   xlab("Particle area histogram/density with median") +
   ylab("Plasmid")+
   xlim(0,5)+
-  scale_fill_cyclical(values = c("#40B0A6","#E1BE6A"),
+  scale_fill_cyclical(values = c("#E1BE6A","#40B0A6"),
                       guide = "legend", name = "Channel",
                       labels = c("Top2\u03b1", "YOYO-1"))
 

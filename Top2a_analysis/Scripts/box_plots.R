@@ -5,22 +5,24 @@
 ### Import and arrange data into one dataframe
 import_csv("Output/pFLIP/pFLIP_relaxed_10nM_Top2a_noATP")
 import_csv("Output/pFLIP/pFLIP_supercoiled_10nM_Top2a_noATP")
-import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_relaxed_10nM_Top2a_noATP")
-import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_supercoiled_10nM_Top2a_noATP")
+import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_relaxed_10nM_Top2a_woATP")
+import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_supercoiled_10nM_Top2a_woATP")
 rm(pFLIP_relaxed_10nM_Top2a_noATP__coloc_statistics)
 rm(pFLIP_supercoiled_10nM_Top2a_noATP__coloc_statistics)
-rm(pFLIP_FUSE_relaxed_10nM_Top2a_noATP__coloc_statistics)
-rm(pFLIP_FUSE_supercoiled_10nM_Top2a_noATP__coloc_statistics)
+rm(pFLIP_FUSE_relaxed_10nM_Top2a__coloc_statistics)
+rm(pFLIP_FUSE_supercoiled_10nM_Top2a__coloc_statistics)
+
+
 var = setdiff(ls(), lsf.str())
 
-plasmid=c("pFLIP-supercoiled",
-       "pFLIP-supercoiled",
-       "pFLIP-relaxed",
-       "pFLIP-relaxed",
-       "pFLIP-FUSE-supercoiled",
-       "pFLIP-FUSE-supercoiled",
-       "pFLIP-FUSE-relaxed",
-       "pFLIP-FUSE-relaxed")
+plasmid=c( "pFLIP-FUSE-relaxed",
+           "pFLIP-FUSE-relaxed",
+           "pFLIP-FUSE-supercoiled",
+           "pFLIP-FUSE-supercoiled",
+           "pFLIP-relaxed",
+           "pFLIP-relaxed",
+           "pFLIP-supercoiled",
+           "pFLIP-supercoiled")
 temp.data = data.frame()
 for (i in 1:length(var)){
     temp.data = rbind(temp.data, data.frame(get(paste0(var[i])),Experiment = paste0(var[i]), Plasmid=paste(plasmid[i])))
@@ -30,27 +32,31 @@ temp.data$Experiment = factor(temp.data$Experiment, levels = temp.data$Experimen
 #Unicode alpha = \u03b1
 expression(paste0("pFLIP-supercoiled \nTop2a"))
 #Define labels for y-axis ticks
-ylab=c("pFLIP-supercoiled \nYOYO-1",
-       "pFLIP-supercoiled \nTop2\u03b1",
-       "pFLIP-relaxed \nYOYO-1",
-       "pFLIP-relaxed \nTop2\u03b1",
-       "pFLIP-FUSE-supercoiled \nYOYO-1",
-       "pFLIP-FUSE-supercoiled \nTop2\u03b1",
+ylab=c("pFLIP-FUSE-relaxed \nTop2\u03b1",
        "pFLIP-FUSE-relaxed \nYOYO-1",
-       "pFLIP-FUSE-relaxed \nTop2\u03b1")
+       "pFLIP-FUSE-supercoiled \nTop2\u03b1",
+       "pFLIP-FUSE-supercoiled \nYOYO-1",
+       "pFLIP-relaxed \nTop2\u03b1",
+       "pFLIP-relaxed \nYOYO-1",
+       "pFLIP-supercoiled \nTop2\u03b1",
+       "pFLIP-supercoiled \nYOYO-1")
 
+
+### Way to scale 0-1 one variable
 temp.data <- temp.data %>%
   group_by(Experiment) %>% 
   mutate(value_norm = IntDen - min(IntDen), 
          value_norm = value_norm / max(value_norm))
-
+#Filter data
+q = quantile(temp.data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
+temp = temp.data[temp.data$Area>q[1] & temp.data$Circ.>0.5,] # Generate temp data set that can be altered until right filter settings are found
 ### Area distribution with median
-tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 2/","box_plot_area_colocpop.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data[temp.data$Coloc == TRUE,], aes(y = Area, x = Experiment, fill = Plasmid)) +
-  geom_boxplot()+
+tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 2/","box_plot_area_noncolocpop.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+ggplot(temp[temp$Coloc == FALSE,], aes(y = Area, x = Experiment, fill = Plasmid)) +
+  geom_boxplot(outlier.alpha = 0.1)+
   facet_wrap(~Plasmid, scale="free")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
-  labs(title = 'Particle area - colocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - w/o ATP")+
+  labs(title = 'Particle area - noncolocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - w/o ATP")+
   theme(
     legend.position="right",
     panel.spacing = unit(0.1, "lines"),
@@ -58,8 +64,8 @@ ggplot(temp.data[temp.data$Coloc == TRUE,], aes(y = Area, x = Experiment, fill =
     axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
   theme_minimal()+
   xlab("Particle area distribution") +
-  ylab("")+
-  ylim(0,10)+
+  ylab("\u03bcm^2")+
+  ylim(0,5)+
   scale_x_discrete(breaks=var,labels=ylab)
   scale_fill_manual(
     name = "Population", values = c("#E1BE6A", "#40B0A6"),
