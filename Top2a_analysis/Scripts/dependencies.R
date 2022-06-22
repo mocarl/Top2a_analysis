@@ -18,6 +18,7 @@ library(viridis)
 library(stringr)
 library(plotrix)
 library(smacpod)
+library(pls)
 ####
 
 ### Function depedencies
