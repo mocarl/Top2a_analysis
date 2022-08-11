@@ -46,17 +46,11 @@ for (i=0; i<list.length; i++) {
 		windows = getList("image.titles");
 		for(k = 0;k<windows.length;k++){
 				selectWindow(windows[k]);
-
-		//run("Auto Threshold", "method=Triangle ignore_black ignore_white white");
-		run("Enhance Contrast", "saturated=0.35");
-		//run("8-bit");
-		//changeValues(0, 0, NaN);
-		changeValues(255, 255, NaN);
-		setAutoThreshold("Triangle dark ignore_black ignore_white");
-		//setAutoThreshold("Triangle dark");
-		getThreshold(lower, upper);
-		//run("Analyze Particles...", "size=6-Infinity pixel display exclude clear summarize");
-		run("Analyze Particles...", "size=3-Infinity pixel show=Outlines display exclude clear summarize overlay");
+				run("Enhance Contrast", "saturated=0.35");
+				run("Auto Threshold", "method=Triangle ignore_black ignore_white white");
+				str = split(getTitle(), ".");
+				str = str[0]+"_roi-";
+				run("Analyze Particles...", "size=3-Infinity pixel show=Outlines display exclude clear summarize overlay");
 //Save outline images
 		drawings = getList("image.titles");
 		for(m=0;m<drawings.length;m++){

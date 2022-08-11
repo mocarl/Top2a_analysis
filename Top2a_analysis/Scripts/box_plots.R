@@ -133,12 +133,13 @@ xlabs <- c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
                   "pFLIP-supercoiled \nTop2\u03b1",
                   "pFLIP-supercoiled \nYOYO-1")
 ### Area distribution with median
-tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 2/box/","box_plot_area_noncolocpop_rel.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp[temp$Coloc == FALSE & temp$Plasmid==c("pFLIP-FUSE-relaxed","pFLIP-relaxed"),], aes(y = Area, x = Experiment, fill = Plasmid)) +
+#temp[temp$Coloc == TRUE & temp$Plasmid==c("pFLIP-FUSE-supercoiled","pFLIP-supercoiled"),]
+tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 2/box/","box_plot_area_colocpop_95th.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+ggplot(temp[temp$Coloc == TRUE,], aes(y = Area, x = Experiment, fill = Plasmid)) +
   geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.5))+
   facet_wrap(.~Plasmid, scale="free_x")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
-  labs(title = 'Particle area - noncolocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - w/o ATP", caption = "3 Replicates - 5th and 95th percentile removed")+
+  labs(title = 'Particle area - colocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - w/o ATP", caption = "3 Replicates - only 95th percentile")+
   theme(
     legend.position="right",
     panel.spacing = unit(0.1, "lines"),
@@ -147,7 +148,7 @@ ggplot(temp[temp$Coloc == FALSE & temp$Plasmid==c("pFLIP-FUSE-relaxed","pFLIP-re
   theme_minimal()+
   xlab("Particle area distribution") +
   ylab("\u03bcm^2")+
-  ylim(0,3)+
+  ylim(0,10)+
   scale_x_discrete(breaks=unique(rep),labels=xlabs)
 dev.off()
 

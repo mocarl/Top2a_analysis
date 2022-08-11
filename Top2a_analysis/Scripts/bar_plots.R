@@ -10,15 +10,7 @@ source("Scripts/dependencies.R")
 
 import_csv("/Users/mocarl/Documents/GitHub/Top2a_analysis/Top2a_analysis/Output/pFLIP_FUSE")
 
-## Calculate relative coloc from particle counts
-temp.var = var[c(FALSE, TRUE)]
-temp.plasmid = plasmid[c(TRUE, FALSE)]
-temp.rep = rep[c(TRUE, FALSE)]
-coloc_stats = data.frame()
-for (i in 1:length(temp.var)) {
-  result = sum(get(temp.var[i])$Coloc==TRUE)/length(get(temp.var[i])$Coloc)*100
-  coloc_stats = rbind(coloc_stats, data.frame(Experiment=temp.rep[i], Plasmid= temp.plasmid[i],Coloc.Per = result))
-}
+
 stats = setdiff(ls(), lsf.str())
 # Allocate space
 temp = data.frame()
@@ -52,7 +44,5 @@ ggplot(coloc_stats, aes(x=Plasmid, y=Coloc.Per)) +
 dev.off()
  
 
-ggplot(coloc_stats, aes(x=Plasmid, y=Coloc.Per, fill=Experiment)) +
-  geom_boxplot() +
-  stat_summary(fun=mean, geom='point', shape=20, size=8) +
-  theme(legend.position='none')
+
+

@@ -47,13 +47,13 @@ for (i=0; i<list.length; i++) {
 		windows = getList("image.titles");
 		for(k = 0;k<windows.length;k++){
 			selectWindow(windows[k]);
-			//run("8-bit");
-			//changeValues(0, 0, NaN);
-			//changeValues(255, 255, NaN);
+			run("8-bit");
+			changeValues(0, 0, NaN);
+			changeValues(255, 255, NaN);
 			run("Enhance Contrast", "saturated=0.35");
 			BuildThreshStack();
 			selectWindow(windows[k]);
-			//setOption("BlackBackground", true);
+			setOption("BlackBackground", true);
 			//setAutoThreshold(fred + " dark ignore_black ignore_white");
 			run("Auto Threshold", "method=" + fred + " ignore_black ignore_white white");
 			//run("Threshold");
