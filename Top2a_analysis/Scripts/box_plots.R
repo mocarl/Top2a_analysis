@@ -14,9 +14,8 @@ give.n <- function(x){
 }
 ### Import and arrange data into one dataframe
 import_csv("Data/3rd")
-import_csv("Output/pFLIP/pFLIP_supercoiled_10nM_Top2a_noATP")
-import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_relaxed_10nM_Top2a_woATP")
-import_csv("Output/pFLIP_FUSE/pFLIP_FUSE_supercoiled_10nM_Top2a_woATP")
+import_csv("Data/2nd")
+import_csv("Data/1st")
 rm()
 
 
@@ -114,7 +113,8 @@ temp.data <- temp.data %>%
          value_norm = value_norm / max(value_norm))
 #Filter data
 q = quantile(temp.data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
-temp = temp.data[temp.data$Area<q[2] & temp.data$Area>q[1] & temp.data$Circ.>0.5,] # Generate temp data set that can be altered until right filter settings are found
+temp = temp.data[temp.data$Area<q[2] & temp.data$Area>q[1] & temp.data$Circ.>0.5,] # Remove 5th and 95th percentile
+temp = temp.data[temp.data$Area>q[2] & temp.data$Circ.>0.5,] # 95th percentile only
 ## Set labels
 xlabs <- paste(c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
                   "pFLIP-FUSE-relaxed \nYOYO-1",
@@ -130,15 +130,15 @@ xlabs <- c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
                   "pFLIP-FUSE-supercoiled \nYOYO-1",
                   "pFLIP-relaxed \nTop2\u03b1",
                   "pFLIP-relaxed \nYOYO-1",
-                  "pFLIP-FUSE-relaxed \nTop2\u03b1",
-                  "pFLIP-FUSE-relaxed \nYOYO-1")
+                  "pFLIP-supercoiled \nTop2\u03b1",
+                  "pFLIP-supercoiled \nYOYO-1")
 ### Area distribution with median
-tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 2/","box_plot_area_colocpop.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp[temp$Coloc == TRUE,], aes(y = Area, x = Experiment, fill = Plasmid)) +
-  geom_boxplot(outlier.alpha = 0.1)+
+tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 2/box/","box_plot_area_noncolocpop_rel.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+ggplot(temp[temp$Coloc == FALSE & temp$Plasmid==c("pFLIP-FUSE-relaxed","pFLIP-relaxed"),], aes(y = Area, x = Experiment, fill = Plasmid)) +
+  geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.5))+
   facet_wrap(.~Plasmid, scale="free_x")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
-  labs(title = 'Particle area - colocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - w/o ATP", caption = "3 Replicates - only 95th percentile")+
+  labs(title = 'Particle area - noncolocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - w/o ATP", caption = "3 Replicates - 5th and 95th percentile removed")+
   theme(
     legend.position="right",
     panel.spacing = unit(0.1, "lines"),
@@ -147,9 +147,8 @@ ggplot(temp[temp$Coloc == TRUE,], aes(y = Area, x = Experiment, fill = Plasmid))
   theme_minimal()+
   xlab("Particle area distribution") +
   ylab("\u03bcm^2")+
-  ylim(0,10)+
+  ylim(0,3)+
   scale_x_discrete(breaks=unique(rep),labels=xlabs)
-  stat_summary(fun= give.n, label = NULL, geom='text',col='blue',cex=5)
 dev.off()
 
 scale_fill_manual(
