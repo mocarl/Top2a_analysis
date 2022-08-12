@@ -40,7 +40,7 @@ for (i=0; i<list.length; i++) {
       }
   }
  function processFile(path) {
-	if (endsWith(list[i], ".czi")) {
+	if (endsWith(list[i], ".czi") || endsWith(list[i], ".tif")) {
 		run("Set Measurements...", "area mean standard min centroid center perimeter bounding fit shape feret's integrated median skewness area_fraction limit display redirect=None decimal=3");
 		run("Bio-Formats Importer", "open=path autoscale color_mode=Default rois_import=[ROI manager] split_channels view=Hyperstack stack_order=XYCZT stitch_tiles");
 		windows = getList("image.titles");
