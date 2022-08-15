@@ -10,7 +10,7 @@ source("Scripts/dependencies.R")
 
 ## Import the conditions you want to analyse by defining search words for the files names
 ## All subfolders in Data will be checked for matching files
-import_xlsx("Data/3rd",c("noATP","results"))
+import_xlsx("Data/MYC",c("7175","results"))
 
 ## Define the two channels you want to analyse. Channel1 is assumed to be channel of interest.
 ## Coloc is defined as particles having any overlapping point on a circle defined by the particles mass centre and a radius derived from particle area.
@@ -19,6 +19,8 @@ import_xlsx("Data/3rd",c("noATP","results"))
 
 mass_coloc()
 
-coloc_particles("2022-06-23_sc-pFLIP-FUSE_10nMTOP2A_noATP_Top2a_results","2022-06-23_sc-pFLIP-FUSE_10nMTOP2A_noATP_YOYO1_results","Data/3rd/2022-06-23_sc-pFLIP-FUSE_10nMTOP2A_noATP")
+coloc_particles("Snap-7175.czi_split_Top2a_results","Snap-7175.czi_split_YOYO1_results","Data/MYC/2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC", c("YOYO1","Top2a"))
+coloc_particles("Snap-7175.czi_split_Top2a_results","Snap-7175.czi_split_MYC_results","Data/MYC/2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC", c("MYC","Top2a"))
+coloc_particles("Snap-7175.czi_split_MYC_results","Snap-7175.czi_split_YOYO1_results","Data/MYC/2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC", c("YOYO1","MYC"))
 
 import_csv("Data/2022-05-04-sc pFLIP-FUSE + 10 nM TOP2A no ATP")

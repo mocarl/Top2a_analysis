@@ -38,13 +38,13 @@ ylab=c("pFLIP-supercoiled \nYOYO-1",
 q = quantile(temp.data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
 temp = temp.data[temp.data$Area<=q[1] & temp.data$Circ.>0.5,] # Generate temp data set that can be altered until right filter settings are found
 ### Area distribution with median
-tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 2/","ridge_plot_area_colocpop.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 4/","ridge_plot_area_colocpop_MYC.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
 ggplot(temp[temp$Coloc == TRUE,], aes(x = Area, fill = Experiment, y = Plasmid, height=..density..,scale=0.9)) +
   geom_density_ridges(stat = "binline", bins=100,
                       draw_baseline = F, alpha = 1,lwd=0.2 )+
   geom_density_ridges(quantile_lines = TRUE, quantiles = 2, rel_min_height = 0.001, alpha = 0.4, lwd=0.3, colour="black")+
   #facet_wrap(~Plasmid, scale="free")
-  labs(title = 'Particle area colocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - w/o ATP",caption = "3 Replicates - 5th and 95th percentile removed") +
+  labs(title = 'Particle area colocalised population', subtitle = "25nM Top2\u03b1 - 25-75nM MYC- 250nM pFLIP-FUSE-supercoiled - w/o ATP",caption = "1 Replicate - 5th and 95th percentile removed") +
   theme(
     legend.position="right",
     panel.spacing = unit(0.1, "lines"),
@@ -52,8 +52,8 @@ ggplot(temp[temp$Coloc == TRUE,], aes(x = Area, fill = Experiment, y = Plasmid, 
     axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
   theme_minimal()+
   xlab("Particle area histogram/density with median") +
-  ylab("Plasmid")+
-  xlim(0,1)+
+  ylab("Population")+
+  xlim(0,5)
   scale_fill_cyclical(values = c("#E1BE6A","#40B0A6"),
                       guide = "legend", name = "Channel",
                       labels = c("Top2\u03b1", "YOYO-1"))

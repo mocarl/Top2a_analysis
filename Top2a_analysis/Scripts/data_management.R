@@ -1,7 +1,7 @@
 ### Statistical analysis of Top2a deposited on funcitonalised glass slides
 ## Script consolidates and copies data to R_project folders
 ## Author: Carl Möller mocarl@chalmers.se
-folder = "/Volumes/Carl_Ext_2/EXPERIMENTS/20220413/Top2_FLIP_sc_10nM_woATP"
+folder = "/Volumes/Carl_Ext_2/Evgeniya_TOP2a/MYC/2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC"
 #Move mask imagease from Imagej to a separate folder for easier overview
 move_outlines(folder)
 
