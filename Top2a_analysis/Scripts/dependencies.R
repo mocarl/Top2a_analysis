@@ -19,6 +19,7 @@ library(stringr)
 library(plotrix)
 library(smacpod)
 library(pls)
+library(grid)
 ####
 
 ### Function depedencies

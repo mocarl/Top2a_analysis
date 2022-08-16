@@ -13,15 +13,22 @@ give.n <- function(x){
   # experiment with the multiplier to find the perfect position
 }
 ### Import and arrange data into one dataframe
-import_csv("Data/MYC/2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC")
-import_csv("Data/MYC/2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC")
-import_csv("Data/MYC/2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC")
+import_csv("Data/MYC/MYC/2022-07-06_scpFLIP-FUSE_25nM-MYC")
+import_csv("Data/MYC/MYC/2022-07-06_scpFLIP-FUSE_50nM-MYC")
+import_csv("Data/MYC/MYC/2022-07-06_scpFLIP-FUSE_75nM-MYC")
+import_csv("Data/MYC/MYC/2022-07-06_scpFLIP-FUSE_100nM-MYC")
 rm()
 
 
 var = setdiff(ls(), lsf.str())
 
 plasmid=c("MYC/Top2a",
+          "MYC/YOYO1",
+          "Top2a/MYC",
+          "Top2a/YOYO1",
+          "YOYO1/MYC",
+          "YOYO1/Top2a",
+          "MYC/Top2a",
           "MYC/YOYO1",
           "Top2a/MYC",
           "Top2a/YOYO1",
@@ -57,7 +64,13 @@ rep=c("25nM MYC",
       "75nM MYC",
       "75nM MYC",
       "75nM MYC",
-      "75nM MYC")
+      "75nM MYC",
+      "100nM MYC",
+      "100nM MYC",
+      "100nM MYC",
+      "100nM MYC",
+      "100nM MYC",
+      "100nM MYC")
 
 temp.data = data.frame()
 for (i in 1:length(var)){
@@ -145,21 +158,22 @@ xlabs <- c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
                   "pFLIP-supercoiled \nYOYO-1")
 ### Area distribution with median
 #temp[temp$Coloc == TRUE & temp$Plasmid==c("pFLIP-FUSE-supercoiled","pFLIP-supercoiled"),]
-tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 4/","box_plot_area_colocpop_MYC_95th.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp_all_coloc, aes(y = Area, x = Experiment, fill = Experiment)) +
-  geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.5))+
-  facet_wrap(.~Plasmid, scale="free_x")+
+tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 4/MYC/","box_plot_area_noncolocpop_MYConly_95th.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+ggplot(temp.data[temp.data$Coloc == FALSE & temp.data$Plasmid == "MYC/YOYO1" | temp.data$Coloc == FALSE & temp.data$Plasmid == "YOYO1/MYC",], aes(y = Area, x = Plasmid, fill = Experiment)) +
+  geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.6))+
+  #facet_wrap(.~Plasmid, scale="free_x")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
-  labs(title = 'Particle area - colocalised population', subtitle = "25nM Top2\u03b1 - 25-75nM MYC - 250nM pFLIP-FUSE-supercoiled - w/o ATP", caption = "1 Replicate - 95th percentile only")+
+  labs(title = 'Particle area - noncolocalised population', subtitle = "25-100nM MYC - 250nM pFLIP-FUSE-supercoiled - w/o ATP", caption = "1 Replicate - 95th percentile only")+
   theme(
     legend.position="right",
-    panel.spacing = unit(0.1, "lines"),
+    panel.spacing.x = unit(0, "lines"),
     strip.text.x = element_text(size = 8),
     axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
   theme_minimal()+
   xlab("Particle area distribution") +
   ylab("\u03bcm^2")+
-  ylim(0,10)
+  ylim(0,5)+
+  coord_fixed(ratio = 0.4)
   scale_x_discrete(breaks=unique(rep),labels=xlabs)
 dev.off()
 

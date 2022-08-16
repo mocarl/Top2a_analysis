@@ -38,13 +38,13 @@ ylab=c("pFLIP-supercoiled \nYOYO-1",
 q = quantile(temp.data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
 temp = temp.data[temp.data$Area<=q[1] & temp.data$Circ.>0.5,] # Generate temp data set that can be altered until right filter settings are found
 ### Area distribution with median
-tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 4/","ridge_plot_area_colocpop_MYC.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp[temp$Coloc == TRUE,], aes(x = Area, fill = Experiment, y = Plasmid, height=..density..,scale=0.9)) +
+tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 4/MYC/","ridge_plot_area_colocpop_MYConly_95th.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+ggplot(temp.data[temp.data$Coloc == TRUE & temp.data$Plasmid == "MYC/YOYO1" | temp.data$Coloc == TRUE & temp.data$Plasmid == "YOYO1/MYC",], aes(x = RawIntDen, fill = Plasmid, y = Experiment, height=..density..,scale=0.9)) +
   geom_density_ridges(stat = "binline", bins=100,
                       draw_baseline = F, alpha = 1,lwd=0.2 )+
   geom_density_ridges(quantile_lines = TRUE, quantiles = 2, rel_min_height = 0.001, alpha = 0.4, lwd=0.3, colour="black")+
   #facet_wrap(~Plasmid, scale="free")
-  labs(title = 'Particle area colocalised population', subtitle = "25nM Top2\u03b1 - 25-75nM MYC- 250nM pFLIP-FUSE-supercoiled - w/o ATP",caption = "1 Replicate - 5th and 95th percentile removed") +
+  labs(title = 'Particle area colocalised population', subtitle = "25-100nM MYC - 250nM pFLIP-FUSE-supercoiled - w/o ATP",caption = "1 Replicate - 95th percentile only") +
   theme(
     legend.position="right",
     panel.spacing = unit(0.1, "lines"),
@@ -53,12 +53,12 @@ ggplot(temp[temp$Coloc == TRUE,], aes(x = Area, fill = Experiment, y = Plasmid, 
   theme_minimal()+
   xlab("Particle area histogram/density with median") +
   ylab("Population")+
-  xlim(0,5)
+  xlim(0,100000)
   scale_fill_cyclical(values = c("#E1BE6A","#40B0A6"),
                       guide = "legend", name = "Channel",
                       labels = c("Top2\u03b1", "YOYO-1"))
-
 dev.off()
+
 #scale_fill_manual(
  # name = "Population", values = c("#E1BE6A", "#40B0A6"),
   #labels = c(paste0("Non-colocalised"),paste0("Colocalised")))
