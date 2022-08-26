@@ -46,16 +46,21 @@ for (i=0; i<list.length; i++) {
 		//Open image and duplicate it. Create image IDs for later reference
 		run("Bio-Formats Importer", "open=path autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT stitch_tiles");
 		getDimensions(width, height, channels, slices, frames);
+		if (channels < 2) {
+			continue;
+		} else {
 		original = getImageID();
 		for (j = 1; j <= channels; j++) {
 			Stack.setChannel(j);
 			run("Enhance Contrast", "saturated=0.35");
 		}
+		selectImage(original);
 		run("Duplicate...", "duplicate");
 		maskID = getImageID();
 		mask_title = getTitle();
 		rename(mask_title + "_mask");
 		mask_title = getTitle();
+		selectWindow(mask_title);
 		run("Split Channels");
 		C = 1;
 		for (p = 0; p < channels; p++) {
@@ -127,6 +132,7 @@ for (i=0; i<list.length; i++) {
 		}
 		close("*");
 		}
+	}
 }
 
 run("Close");
