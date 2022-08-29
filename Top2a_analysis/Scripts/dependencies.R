@@ -18,6 +18,8 @@ library(viridis)
 library(stringr)
 library(plotrix)
 library(smacpod)
+library(pls)
+library(grid)
 ####
 
 ### Function depedencies
@@ -30,3 +32,4 @@ source("Scripts/Functions/data_consolidation.R")
 source("Scripts/Functions/import_csv.R")
 source("Scripts/Functions/coloc_particles.R")
 source("Scripts/Functions/scatterBar.Norm.R")
+

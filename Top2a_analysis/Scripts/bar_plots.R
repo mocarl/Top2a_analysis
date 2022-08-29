@@ -9,6 +9,8 @@ rm(list = ls())
 source("Scripts/dependencies.R")
 
 import_csv("/Users/mocarl/Documents/GitHub/Top2a_analysis/Top2a_analysis/Output/pFLIP_FUSE")
+
+
 stats = setdiff(ls(), lsf.str())
 # Allocate space
 temp = data.frame()
@@ -29,8 +31,8 @@ temp$Image = factor(temp$Image, levels = temp$Image)
 dir.create(paste("Output/","Graphs/","pFLIP"))
 
 tiff(file=paste("Output/","Graphs/","pFLIP_FUSE/","pFLIP_FUSE_10nM_TOP2_yATP",".tiff"), width = 5, height = 5, units = "in", res = 300, pointsize = 7)
-ggplot(temp, aes(x=Image, y=Relative_coloc)) +
-  geom_bar(aes(fill=Condition),width = 0.7,position = position_dodge(0.5),
+ggplot(coloc_stats, aes(x=Plasmid, y=Coloc.Per)) +
+  geom_bar(aes(fill=Plasmid),width = 0.7,position = position_dodge(0.5),
            stat = "identity", color= "white")+
   labs(title=expression(paste("pFLIP_FUSE / 10nM TOP2",alpha)), x="Conditions", y ="Relative colocalisation" )+
   scale_fill_manual(values=c("#E1BE6A", "#40B0A6","#D6E897"))+
@@ -41,3 +43,6 @@ ggplot(temp, aes(x=Image, y=Relative_coloc)) +
   theme(axis.text.x = element_text(color="black", size=9, angle=30, hjust=0.5, vjust =1),axis.text.y = element_text(face="bold",color="black", size=10, angle=0, hjust=0, vjust =0))
 dev.off()
  
+
+
+

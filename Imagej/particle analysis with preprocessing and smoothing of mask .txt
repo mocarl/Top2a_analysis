@@ -1,0 +1,25 @@
+particle analysis with preprocessing and smoothing of mask
+
+open image,duplicate,rename, split channels, rename
+Create an array of all open windows
+run processing on one pair of windows
+
+run("Maximum...", "radius=1 stack");
+run("Gaussian Blur...", "sigma=1 stack");
+run("Unsharp Mask...", "radius=1 mask=0.60 stack");
+run("Auto Threshold", "method=Triangle ignore_black ignore_white white stack");
+setOption("BlackBackground", true);
+run("Dilate", "stack");
+run("Close-", "stack");
+
+you now have a threshold image that is analyzeable but does not contain intensity data because it is a binary
+
+run("Set Measurements...", "area mean standard min centroid center perimeter bounding fit shape feret's integrated median skewness area_fraction limit display redirect=Snap-250-0001 decimal=3");
+
+redirect analysis to RAW window
+
+run("Analyze Particles...", "size=6-Infinity pixel circularity=0.50-1.00 display exclude clear summarize add");
+
+Run particle analysis and save results
+Redirect to second RAW and repeat analysis
+

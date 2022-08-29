@@ -1,5 +1,10 @@
+### Function takes XY coordinates from channel1 and look for coordinates in channel2 
+## within r1+r2 and calls colocalisation from this
 
-coloc_particles <- function(channel1,channel2,output_path)
+## Channel1 and 2 can be vectors of variable names
+# label is a vector of strings with equal length to the number of channels
+# Each string will be added to the repsective output for user ID
+coloc_particles <- function(channel1,channel2,output_path, label = NULL)
 
   for (p in channel1){
     for(j in channel2){
@@ -14,13 +19,25 @@ coloc_particles <- function(channel1,channel2,output_path)
       data1_labels = unique(data1[["Label"]])
       data2_labels = unique(data2[["Label"]])
       
-      if(length(data1_labels)>length(data2_labels)){
-        data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".czi"), "[", 1), collapse = "|"))]
-        data1=data1[data1$Label %in% data1_labels,]
+      if(max(unlist(str_locate_all(data1_labels, c(".czi"))))>max(unlist(str_locate_all(data1_labels, c(".tif"))))){
+        if(length(data1_labels)>length(data2_labels)){
+          data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".czi"), "[", 1), collapse = "|"))]
+          data1=data1[data1$Label %in% data1_labels,]
+        } else {
+          data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".czi"), "[", 1), collapse = "|"))]
+          data2=data2[data2$Label %in% data2_labels,]
+        }
       } else {
-        data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".czi"), "[", 1), collapse = "|"))]
-        data2=data2[data2$Label %in% data2_labels,]
+        if(length(data1_labels)>length(data2_labels)){
+          data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".tif"), "[", 1), collapse = "|"))]
+          data1=data1[data1$Label %in% data1_labels,]
+        } else {
+          data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".tif"), "[", 1), collapse = "|"))]
+          data2=data2[data2$Label %in% data2_labels,]
+        }
       }
+      
+    
       data1["Coloc"] = NA
       data2["Coloc"] = NA
       data1.temp = c()
@@ -47,8 +64,14 @@ coloc_particles <- function(channel1,channel2,output_path)
       }
       data1["Coloc"] = data1.temp > 0
       data2["Coloc"] = data2.temp > 0
-      write_csv(data1, file = paste0(output_path,"/",p,"_coloc_pop.csv"))
-      write_csv(data2, file = paste0(output_path,"/",j,"_coloc_pop.csv"))
+      if (is.null(label)){
+        write_csv(data1, file = paste0(output_path,"/",p,"_coloc_pop.csv"))
+        write_csv(data2, file = paste0(output_path,"/",j,"_coloc_pop.csv"))
+      } else {
+        write_csv(data1, file = paste0(output_path,"/",p,"_",label[1],"_coloc_pop.csv"))
+        write_csv(data2, file = paste0(output_path,"/",j,"_",label[2],"_coloc_pop.csv"))
+      }
+      
       
       }
   }
