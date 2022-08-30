@@ -48,6 +48,7 @@ for (i=0; i<list.length; i++) {
 		//Open image and duplicate it. Create image IDs for later reference
 		run("Bio-Formats Importer", "open=path autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT stitch_tiles");
 		getDimensions(width, height, channels, slices, frames);
+		get
 		if (channels < 2) {
 			continue;
 		} else {
@@ -69,17 +70,24 @@ for (i=0; i<list.length; i++) {
 			mask = "C" + C + "-" + mask_title;
 			C++;
 			selectWindow(mask);
-		//Generate masks on each memeber of stack
-		//run("Maximum...", "radius=1 stack");
-		//run("Unsharp Mask...", "radius=1 mask=0.60 stack");
-		//run("Gaussian Blur...", "sigma=1 stack");
+			//Generate masks on each memeber of stack
+			if (p > 0) {
+				run("Maximum...", "radius=1 stack");
+				run("Unsharp Mask...", "radius=1 mask=0.60 stack");
+				run("Gaussian Blur...", "sigma=1 stack");
+				run("Auto Threshold", "method=Triangle ignore_black ignore_white white stack");
+				setOption("BlackBackground", true);
+				run("Dilate", "stack");
+				run("Close-", "stack");
+				run("Open", "stack");
+				run("Watershed", "stack");
+			
+			} else {
 		run("Auto Threshold", "method=Triangle ignore_black ignore_white white stack");
 		setOption("BlackBackground", true);
-		//run("Dilate", "stack");
-		//run("Erode", "stack");
-		//run("Close-", "stack");
 		run("Open", "stack");
 		run("Watershed", "stack");
+			}
 		}
 		//Split channels and create reference
 		selectImage(original);
