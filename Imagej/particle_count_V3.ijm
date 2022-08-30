@@ -48,7 +48,6 @@ for (i=0; i<list.length; i++) {
 		//Open image and duplicate it. Create image IDs for later reference
 		run("Bio-Formats Importer", "open=path autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT stitch_tiles");
 		getDimensions(width, height, channels, slices, frames);
-		get
 		if (channels < 2) {
 			continue;
 		} else {
