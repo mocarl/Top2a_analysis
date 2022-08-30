@@ -70,13 +70,16 @@ for (i=0; i<list.length; i++) {
 			C++;
 			selectWindow(mask);
 		//Generate masks on each memeber of stack
-		run("Maximum...", "radius=1 stack");
-		run("Gaussian Blur...", "sigma=1 stack");
-		run("Unsharp Mask...", "radius=1 mask=0.60 stack");
+		//run("Maximum...", "radius=1 stack");
+		//run("Unsharp Mask...", "radius=1 mask=0.60 stack");
+		//run("Gaussian Blur...", "sigma=1 stack");
 		run("Auto Threshold", "method=Triangle ignore_black ignore_white white stack");
 		setOption("BlackBackground", true);
-		run("Dilate", "stack");
-		run("Close-", "stack");
+		//run("Dilate", "stack");
+		//run("Erode", "stack");
+		//run("Close-", "stack");
+		run("Open", "stack");
+		run("Watershed", "stack");
 		}
 		//Split channels and create reference
 		selectImage(original);
