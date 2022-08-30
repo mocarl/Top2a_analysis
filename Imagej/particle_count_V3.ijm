@@ -34,7 +34,7 @@ for (i=0; i<list.length; i++) {
               processFiles(""+dir+list[i]);
           else {
              showProgress(n++, count);
-             percent = (n++ / count)*100;
+             percent = ((n++ / count)/2)*100;
              showStatus("!"+percent+"%");
              path = dir+list[i];
              processFile(path);
