@@ -23,15 +23,15 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
         if(length(data1_labels)>length(data2_labels)){
           data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".czi"), "[", 1), collapse = "|"))]
           data1=data1[data1$Label %in% data1_labels,]
-        } else {
+        } else if (length(data1_labels)<length(data2_labels)){
           data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".czi"), "[", 1), collapse = "|"))]
           data2=data2[data2$Label %in% data2_labels,]
         }
-      } else {
+      } else if(max(unlist(str_locate_all(data1_labels, c(".tif"))))>max(unlist(str_locate_all(data1_labels, c(".czi"))))) {
         if(length(data1_labels)>length(data2_labels)){
           data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".tif"), "[", 1), collapse = "|"))]
           data1=data1[data1$Label %in% data1_labels,]
-        } else {
+        } else if (length(data1_labels)<length(data2_labels)) {
           data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".tif"), "[", 1), collapse = "|"))]
           data2=data2[data2$Label %in% data2_labels,]
         }
@@ -57,6 +57,9 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
           temp.mask[,i] = d<(r1+r2)
           data1.temp = c(data1.temp, sum(temp.mask[,i]))
         }
+        #ID.label = rep(data2_labels[n],dim(data2[data2$Label == data2_labels[n],])[1])
+        #ID.index = rep(NA,dim(data2[data2$Label == data2_labels[n],])[1])
+        #which(temp.mask, arr.ind = TRUE)
         data2.temp = c(data2.temp,rowSums(temp.mask))
         for (m in 1:dim(data1[data1$Label == data1_labels[n],])[1]) {
           
