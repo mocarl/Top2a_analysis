@@ -63,6 +63,24 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
           data1.temp = c(data1.temp, sum(temp.mask[,i]))
           
         }
+        #Check for particles with multiple candidates and find the closest
+        if (length(unique(which(temp.mask, arr.ind = TRUE)[,2])) < dim(which(temp.mask, arr.ind = TRUE))[1]){
+          vec = which(temp.mask, arr.ind = TRUE)
+          vec = vec[duplicated(vec[,2]) | duplicated(vec[,2], fromLast=TRUE),]
+          for (q in unique(vec[,2])){
+            x= data1[data1$Label == data1_labels[n],]$XM[[q]]
+            y= data1[data1$Label == data1_labels[n],]$YM[[q]]
+            h= data2[data2$Label == data2_labels[n],]$XM[vec[vec[,2]==q,1]]
+            k= data2[data2$Label == data2_labels[n],]$YM[vec[vec[,2]==q,1]]
+            if(dim(vec[vec[,2]==q,])[1]>2){
+              temp.mask[vec[vec[,2]==q,][-which.min(sqrt((x-h)^2+(y-k)^2)),]] = FALSE
+            } else {
+              temp.mask[vec[vec[,2]==q,][-which.min(sqrt((x-h)^2+(y-k)^2)),][1],vec[vec[,2]==q,][-which.min(sqrt((x-h)^2+(y-k)^2)),][2]] = FALSE
+            }
+            
+        }
+        
+        #Generate vectors with indicies for colocalised particles for subsequent tracking
         ID.arrayInd = arrayInd(which(temp.mask), dim(temp.mask))
         ID.index1[ID.arrayInd[,2]] = ID.arrayInd[,1]
         ID.index2[ID.arrayInd[,1]] = ID.arrayInd[,2]
