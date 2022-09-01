@@ -99,10 +99,7 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
         write_csv(data1, file = paste0(output_path,"/",p,"_",label[1],"_coloc_pop.csv"))
         write_csv(data2, file = paste0(output_path,"/",j,"_",label[2],"_coloc_pop.csv"))
       }
-      
-      
-      }
   }
-
-
+    }
+  }
 
