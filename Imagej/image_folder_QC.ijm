@@ -46,9 +46,10 @@ for (i=0; i<list.length; i++) {
 				selectWindow(windows[k]);
 				run("Enhance Contrast", "saturated=0.35");
 		}
-		Dialog.create("Categorize");
+		Dialog.createNonBlocking("Categorize");
 			Dialog.addChoice("Quality", choice, choice[1]);
 			Dialog.show();
+			
 		category = Dialog.getChoice();
 		if (category==choice[0]) {
 			if (File.exists(dir+"/Bad")) {
