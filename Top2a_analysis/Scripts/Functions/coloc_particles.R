@@ -40,12 +40,17 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
     
       data1["Coloc"] = NA
       data2["Coloc"] = NA
+      data1["Coloc.index"] = NA
+      data2["Coloc.index"] = NA
       data1.temp = c()
       data2.temp = c()
-      
+      Coloc.index1 = c()
+      Coloc.index2 = c()
       for (n in 1:length(data1_labels)) {
         ### Points with intersecting circles r are assumed to be likely colocalised
         temp.mask = matrix(nrow = dim(data2[data2$Label == data2_labels[n],])[1], ncol = dim(data1[data1$Label == data1_labels[n],])[1])
+        ID.index1 = rep(NA,dim(data1[data1$Label == data1_labels[n],])[1])
+        ID.index2 = rep(NA,dim(data2[data2$Label == data2_labels[n],])[1])
         for (i in 1:dim(data1[data1$Label == data1_labels[n],])[1]) {
           x= data1[data1$Label == data1_labels[n],]$XM[[i]]
           y= data1[data1$Label == data1_labels[n],]$YM[[i]]
@@ -56,17 +61,19 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
           r2=sqrt(data2[data2$Label == data2_labels[n],]$Area/pi)
           temp.mask[,i] = d<(r1+r2)
           data1.temp = c(data1.temp, sum(temp.mask[,i]))
-        }
-        #ID.label = rep(data2_labels[n],dim(data2[data2$Label == data2_labels[n],])[1])
-        #ID.index = rep(NA,dim(data2[data2$Label == data2_labels[n],])[1])
-        #which(temp.mask, arr.ind = TRUE)
-        data2.temp = c(data2.temp,rowSums(temp.mask))
-        for (m in 1:dim(data1[data1$Label == data1_labels[n],])[1]) {
           
         }
+        ID.arrayInd = arrayInd(which(temp.mask), dim(temp.mask))
+        ID.index1[ID.arrayInd[,2]] = ID.arrayInd[,1]
+        ID.index2[ID.arrayInd[,1]] = ID.arrayInd[,2]
+        Coloc.index1 = c(Coloc.index1, ID.index1)
+        Coloc.index2 = c(Coloc.index2, ID.index2)
+        data2.temp = c(data2.temp,rowSums(temp.mask))
       }
       data1["Coloc"] = data1.temp > 0
       data2["Coloc"] = data2.temp > 0
+      data1["Coloc.index"] = Coloc.index1
+      data2["Coloc.index"] = Coloc.index2
       if (is.null(label)){
         write_csv(data1, file = paste0(output_path,"/",p,"_coloc_pop.csv"))
         write_csv(data2, file = paste0(output_path,"/",j,"_coloc_pop.csv"))
