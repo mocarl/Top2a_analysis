@@ -14,9 +14,9 @@ give.n <- function(x){
 }
 ### Import and arrange data into one dataframe
 import_xlsx("Data/YOYOcontrol", c("Top2a_results"))
-import_csv("Data/1st")
-import_csv("Data/2nd")
-import_csv("Data/3rd")
+import_csv("Data/V3/1st")
+import_csv("Data/V3/2nd")
+import_csv("Data/V3/3rd")
 
 rm()
 
@@ -148,12 +148,12 @@ xlabs <- c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
 ### Area distribution with median
 #temp[temp$Coloc == TRUE & temp$Plasmid==c("pFLIP-FUSE-supercoiled","pFLIP-supercoiled"),]
 #temp.data[temp.data$Coloc == FALSE & temp.data$Plasmid == "MYC/YOYO1" | temp.data$Coloc == FALSE & temp.data$Plasmid == "YOYO1/MYC",]
-tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Figure 2/box/","box_plot_area_replicates.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data[temp.data$Coloc == TRUE,], aes(y = Area, x = Experiment, fill = Plasmid)) +
+tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Figure 2/V3/","box_plot_Mean_replicates.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+ggplot(temp.data, aes(y = Mean, x = Experiment, fill = Coloc)) +
   geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.6))+
   facet_wrap(.~Plasmid, scale="free_x")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
-  labs(title = 'Particle area - noncolocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - supercoiled/relaxed - w/o ATP", caption = "3 Replicates - 5th and 95th percentile removed")+
+  labs(title = 'Mean intensity - non & colocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - supercoiled/relaxed - w/o ATP", caption = "3 Replicates - 5th and 95th percentile removed")+
   theme(
     legend.position="right",
     panel.spacing.x = unit(0, "lines"),
@@ -162,7 +162,7 @@ ggplot(temp.data[temp.data$Coloc == TRUE,], aes(y = Area, x = Experiment, fill =
   theme_minimal()+
   xlab("Particle area distribution") +
   ylab("\u03bcm^2")+
-  ylim(0,5)
+  ylim(0,1500)
   #coord_fixed(ratio = 0.4)
   scale_x_discrete(breaks=unique(rep),labels=ylab)
 dev.off()

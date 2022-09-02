@@ -21,18 +21,19 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
       
       if(max(unlist(str_locate_all(data1_labels, c(".czi"))))>max(unlist(str_locate_all(data1_labels, c(".tif"))))){
         if(length(data1_labels)>length(data2_labels)){
-          data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".czi"), "[", 1), collapse = "|"))]
+          data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, "C2"), "[", 2), collapse = "|"))]
           data1=data1[data1$Label %in% data1_labels,]
         } else if (length(data1_labels)<length(data2_labels)){
-          data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".czi"), "[", 1), collapse = "|"))]
+          data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, "C1"), "[", 2), collapse = "|"))]
           data2=data2[data2$Label %in% data2_labels,]
         }
-      } else if(max(unlist(str_locate_all(data1_labels, c(".tif"))))>max(unlist(str_locate_all(data1_labels, c(".czi"))))) {
+      }
+      if(max(unlist(str_locate_all(data1_labels, c(".tif"))))>max(unlist(str_locate_all(data1_labels, c(".czi"))))) {
         if(length(data1_labels)>length(data2_labels)){
-          data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".tif"), "[", 1), collapse = "|"))]
+          data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, "C2"), "[", 2), collapse = "|"))]
           data1=data1[data1$Label %in% data1_labels,]
         } else if (length(data1_labels)<length(data2_labels)) {
-          data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".tif"), "[", 1), collapse = "|"))]
+          data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, "C1"), "[", 2), collapse = "|"))]
           data2=data2[data2$Label %in% data2_labels,]
         }
       }
@@ -77,9 +78,8 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
             } else {
               temp.mask[vec[vec[,2]==q,][-which.min(sqrt((x-h)^2+(y-k)^2)),][1],vec[vec[,2]==q,][-which.min(sqrt((x-h)^2+(y-k)^2)),][2]] = FALSE
             }
-            
+          }
         }
-        
         #Generate vectors with indicies for colocalised particles for subsequent tracking
         ID.arrayInd = arrayInd(which(temp.mask), dim(temp.mask))
         ID.index1[ID.arrayInd[,2]] = ID.arrayInd[,1]
@@ -87,6 +87,7 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
         Coloc.index1 = c(Coloc.index1, ID.index1)
         Coloc.index2 = c(Coloc.index2, ID.index2)
         data2.temp = c(data2.temp,rowSums(temp.mask))
+        
       }
       data1["Coloc"] = data1.temp > 0
       data2["Coloc"] = data2.temp > 0
@@ -100,6 +101,6 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
         write_csv(data2, file = paste0(output_path,"/",j,"_",label[2],"_coloc_pop.csv"))
       }
   }
-    }
-  }
+}
+
 
