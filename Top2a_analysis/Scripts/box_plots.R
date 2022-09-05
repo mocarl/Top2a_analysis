@@ -14,13 +14,9 @@ give.n <- function(x){
 }
 ### Import and arrange data into one dataframe
 import_xlsx("Data/YOYOcontrol", c("Top2a_results"))
-import_csv("Data/V3/1st")
-import_csv("Data/V3/2nd")
-import_csv("Data/V3/3rd")
+import_csv("Data/V3/MYC")
 
-rm()
-
-
+## Arrange data into single data frame
 var = setdiff(ls(), lsf.str())
 
 plasmid=c("pFLIP-FUSE relaxed",
@@ -61,9 +57,23 @@ rep=c("FFRT1","FFRY1",
       "FRT1","FRY1",
       "FST1","FSY1")
 
+condition = c(rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
+              rep(c("100nM MYC"),6),
+              rep(c("25nM Top2\u03b1"),6),
+              rep(c("25nM Top2\u03b1 \n25nM MYC"),6),
+              rep(c("25nM Top2\u03b1 \n50nM MYC"),6),
+              rep(c("25nM Top2\u03b1 \n75nM MYC"),6))
+
+channel = rep(c("MYC",
+            "MYC",
+            "Top2\u03b1",
+            "Top2\u03b1",
+            "YOYO1",
+            "YOYO1"),6)
+
 temp.data = data.frame()
 for (i in 1:length(var)){
-    data = data.frame(get(paste0(var[i])),Experiment = paste(rep[i]), Plasmid=paste(plasmid[i]))
+    data = data.frame(get(paste0(var[i])),Experiment = paste(condition[i]), Plasmid=paste(channel[i]))
     q = quantile(data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
     data = data[data$Area<q[2] & data$Area>q[1] & data$Circ.>0.5,] # Remove 5th and 95th percentile
     #data = data[data$Area>=q[2] & data$Circ.>0.5,] # 95th percentile only
@@ -149,9 +159,9 @@ xlabs <- c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
 #temp[temp$Coloc == TRUE & temp$Plasmid==c("pFLIP-FUSE-supercoiled","pFLIP-supercoiled"),]
 #temp.data[temp.data$Coloc == FALSE & temp.data$Plasmid == "MYC/YOYO1" | temp.data$Coloc == FALSE & temp.data$Plasmid == "YOYO1/MYC",]
 tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Figure 2/V3/","box_plot_Mean_replicates.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data, aes(y = Mean, x = Experiment, fill = Coloc)) +
+ggplot(temp.data, aes(y = Median, x = Coloc, fill = Plasmid)) +
   geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.6))+
-  facet_wrap(.~Plasmid, scale="free_x")+
+  facet_wrap(.~Experiment, scale="free_x")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
   labs(title = 'Mean intensity - non & colocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - supercoiled/relaxed - w/o ATP", caption = "3 Replicates - 5th and 95th percentile removed")+
   theme(
@@ -161,7 +171,7 @@ ggplot(temp.data, aes(y = Mean, x = Experiment, fill = Coloc)) +
     axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
   theme_minimal()+
   xlab("Particle area distribution") +
-  ylab("\u03bcm^2")+
+  ylab("\u03bcm^2")
   ylim(0,1500)
   #coord_fixed(ratio = 0.4)
   scale_x_discrete(breaks=unique(rep),labels=ylab)
