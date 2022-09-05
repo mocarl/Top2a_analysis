@@ -75,7 +75,7 @@ temp.data = data.frame()
 for (i in 1:length(var)){
     data = data.frame(get(paste0(var[i])),Experiment = paste(condition[i]), Plasmid=paste(channel[i]))
     q = quantile(data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
-    data = data[data$Area<q[2] & data$Area>q[1] & data$Circ.>0.5,] # Remove 5th and 95th percentile
+    #data = data[data$Area<q[2] & data$Area>q[1] & data$Circ.>0.5,] # Remove 5th and 95th percentile
     #data = data[data$Area>=q[2] & data$Circ.>0.5,] # 95th percentile only
     temp.data = rbind(temp.data, data)
 }
@@ -113,9 +113,9 @@ ylab=c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
 
 ### Way to scale 0-1 one variable
 temp.data <- temp.data %>%
-  group_by(Experiment) %>% 
-  mutate(value_norm = IntDen - min(IntDen), 
-         value_norm = value_norm / max(value_norm))
+  group_by(Experiment, Plasmid) %>% 
+  mutate(value_norm = Mean - min(Mean), 
+         value_norm = value_norm / (max(Mean)-min(Mean)))
 #Filter data
 q = quantile(temp.data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
 temp = temp.data[temp.data$Area<q[2] & temp.data$Area>q[1] & temp.data$Circ.>0.5,] # Remove 5th and 95th percentile
