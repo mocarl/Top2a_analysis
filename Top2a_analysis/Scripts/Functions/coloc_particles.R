@@ -89,14 +89,19 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
         data2.temp = c(data2.temp,rowSums(temp.mask))
         
       }
-      data1["Coloc"] = data1.temp > 0
-      data2["Coloc"] = data2.temp > 0
-      data1["Coloc.index"] = Coloc.index1
-      data2["Coloc.index"] = Coloc.index2
+      
       if (is.null(label)){
+        data1["Coloc"] = data1.temp > 0
+        data2["Coloc"] = data2.temp > 0
+        data1["Coloc.index"] = Coloc.index1
+        data2["Coloc.index"] = Coloc.index2
         write_csv(data1, file = paste0(output_path,"/",p,"_coloc_pop.csv"))
         write_csv(data2, file = paste0(output_path,"/",j,"_coloc_pop.csv"))
       } else {
+        data1[paste0(label[1],".coloc")] = data1.temp > 0
+        data2[paste0(label[2],".coloc")] = data2.temp > 0
+        data1[paste0(label[1],".coloc.index")] = Coloc.index1
+        data2[paste0(label[2],".coloc.index")] = Coloc.index2
         write_csv(data1, file = paste0(output_path,"/",p,"_",label[1],"_coloc_pop.csv"))
         write_csv(data2, file = paste0(output_path,"/",j,"_",label[2],"_coloc_pop.csv"))
       }
