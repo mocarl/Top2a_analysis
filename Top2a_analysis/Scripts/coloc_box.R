@@ -29,6 +29,22 @@ for (i in 1:length(temp.var)) {
   coloc_stats = rbind(coloc_stats, data.frame(Experiment=temp.rep[i], Category= positive[i],Coloc.Per = result))
 }
 
+##
+coloc_stats = data.frame()
+for (i in 1:length(condition)) {
+  data = temp.data[temp.data$Experiment == condition[i] & temp.data$Plasmid == channel[i],]
+  #q = quantile(data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
+  #data = data[data$Area<q[2] & data$Area>q[1] & data$Circ.>0.5,] # Remove 5th and 95th percentile
+  #data = data[data$Area>q[2] & data$Circ.>0.5,] # 95th percentile only
+  for (k in c("YOYO1_coloc","Top2a_coloc", "MYC_coloc")) {
+    result = sum(data[k], na.rm = TRUE)/dim(data[k])[1]*100
+    coloc_stats = rbind(coloc_stats, data.frame(Experiment=condition[i] ,Coloc = result, Plasmid = channel[i]))
+  }
+
+  #coloc_stats = rbind(coloc_stats, data.frame(Experiment=unique(condition)[i] ,eval(parse(text=k)) = result))
+}
+
+c("YOYO1_coloc", "YOYO1_index","Top2a_coloc", "Top2a_index", "MYC_coloc", "MYC_index")
 # Find double positive DNA droplets
 
 for (i in seq(1,length(temp.var),2)) {
