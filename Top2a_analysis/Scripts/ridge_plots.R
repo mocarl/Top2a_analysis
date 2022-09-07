@@ -63,23 +63,23 @@ dev.off()
  # name = "Population", values = c("#E1BE6A", "#40B0A6"),
   #labels = c(paste0("Non-colocalised"),paste0("Colocalised")))
 ### Sum of pixel intensity per particle with median
-tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Figure 4/Data_explo/","mean_Top2_MYC.tiff", sep=""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Figure 4/Data_explo/","Area_Top2_MYC_Raw.tiff", sep=""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
 
 
-ggplot(temp.data[!(temp.data$Experiment == condition[13] & temp.data$Plasmid == channel[1]) & !(temp.data$Experiment == condition[7] & temp.data$Plasmid == channel[3]),], aes(x = Median, y = Experiment, fill = Plasmid, height=..density.., scale=1)) +
+ggplot(temp.data[!(temp.data$Experiment == condition[4] & temp.data$Plasmid == channel[2]) & !(temp.data$Experiment == condition[7] & temp.data$Plasmid == channel[1]),], aes(x = IntDen, y = Experiment, fill = Plasmid, height=..density.., scale=1)) +
   geom_density_ridges(stat = "binline", bins=500,
                       draw_baseline = F, alpha = 1,lwd=0.1 )+
   geom_density_ridges(quantile_lines = TRUE, quantiles = 2, rel_min_height = 0.001, alpha = 0.4, lwd=0.3, colour="black")+
-  labs(title = 'Mean intensity per particle', subtitle = "25-100nM MYC - 250nM pFLIP-FUSE-supercoiled - w/o ATP", caption = "1 replicate - Values are scaled to 1 by Min-Max scaling") +
+  labs(title = 'Area per particle', subtitle = "25-100nM MYC - 250nM pFLIP-FUSE-supercoiled - w/o ATP", caption = "1 replicate - Data is unfiltered") +
   theme(
     legend.position="right",
     panel.spacing = unit(0.1, "lines"),
     strip.text.x = element_text(size = 8),
     axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
   theme_minimal()+
-  xlab("mean intensity per particle with median") +
+  xlab("Area per particle with median") +
   ylab("Condition")+
-  xlim(150,500)+
+  xlim(0,100)+
 scale_fill_manual(
   name = "Channel", values = c("#5982e2", "#e55151", "#225500"),
   labels = unique(channel))

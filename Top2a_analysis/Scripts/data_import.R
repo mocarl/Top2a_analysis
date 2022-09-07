@@ -11,15 +11,121 @@ source("Scripts/dependencies.R")
 ### Import and arrange data into one dataframe
 import_xlsx("Data/YOYOcontrol", c("Top2a_results"))
 import_csv("Data/V3/MYC")
-
+import_csv("Data/V3/MYC", c("img_stat"))
 ## Arrange data into single data frame
 var = setdiff(ls(), lsf.str())
 
-names(get(var[1]))[names(get(var[1])) == "Coloc"] = "Top2a.coloc"
 
-names(get(var[1]))[names(get(var[1])) == 'Coloc.index'] <- 'Top2a.coloc.index'
-get(var[1])["Coloc"] 
-get(var[1]) = cbind(get(var[1]), get(var[2])[,34:35])
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_MYC_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[1], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_MYC_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[1], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_MYC_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[2], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_MYC_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[2], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_Top2a_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[3], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_Top2a_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[3], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_Top2a_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[4], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_Top2a_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[4], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_YOYO1_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[5], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_YOYO1_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[5], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_YOYO1_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[6], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_YOYO1_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[6], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_MYC_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[7], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_MYC_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[7], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_MYC_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[8], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_MYC_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[8], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_Top2a_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[9], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_Top2a_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[9], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_Top2a_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[10], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_Top2a_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[10], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_YOYO1_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[11], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_YOYO1_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[11], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_YOYO1_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[12], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_100_nM_MYC_V3_YOYO1_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[12], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_MYC_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[13], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_MYC_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[13], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_MYC_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[14], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_MYC_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[14], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_Top2a_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[15], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_Top2a_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[15], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_Top2a_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[16], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_Top2a_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[16], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_YOYO1_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[17], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_YOYO1_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[17], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_YOYO1_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[18], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-14-sc_pFLIP-FUSE_+_25_nM_TOP2A_V3_YOYO1_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[18], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_MYC_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[19], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_MYC_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[19], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_MYC_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[20], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_MYC_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[20], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_Top2a_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[21], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_Top2a_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[21], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_Top2a_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[22], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_Top2a_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[22], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_YOYO1_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[23], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_YOYO1_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[23], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_YOYO1_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[24], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_25nM-MYC_V3_YOYO1_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[24], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_MYC_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[25], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_MYC_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[25], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_MYC_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[26], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_MYC_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[26], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_Top2a_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[27], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_Top2a_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[27], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_Top2a_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[28], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_Top2a_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[28], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_YOYO1_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[29], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_YOYO1_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[29], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_YOYO1_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[30], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_50nM-MYC_V3_YOYO1_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[30], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_MYC_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[31], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_MYC_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[31], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_MYC_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[32], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_MYC_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[32], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_Top2a_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[33], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_Top2a_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[33], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_Top2a_results_YOYO1_coloc_pop`)[34] = paste0(tail(str_split(var[34], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_Top2a_results_YOYO1_coloc_pop`)[35] = paste0(tail(str_split(var[34], "_")[[1]], n=3)[[1]],"_index")
+
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_YOYO1_results_MYC_coloc_pop`)[34] = paste0(tail(str_split(var[35], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_YOYO1_results_MYC_coloc_pop`)[35] = paste0(tail(str_split(var[35], "_")[[1]], n=3)[[1]],"_index")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_YOYO1_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[36], "_")[[1]], n=3)[[1]],"_coloc")
+names(`2022-06-28_sc-pFLIP-FUSE_25nM-TOP2A_75nM-MYC_V3_YOYO1_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[36], "_")[[1]], n=3)[[1]],"_index")
+
+for (i in seq(1,length(var),2)){
+  df = data.frame(temp1 = rep(NA,dim(get(var[i]))[1]), temp2 = rep(NA,dim(get(var[i]))[1]))
+  names(df)[1] = paste0(tail(str_split(var[i], c("_"))[[1]], n=5)[[1]],"_coloc")
+  names(df)[2] = paste0(tail(str_split(var[i], c("_"))[[1]], n=5)[[1]],"_index")
+  assign(var[i],cbind(get(var[i]), get(var[i+1])[,34:35]), df)
+  rm(list = var[i+1])
+}
+var = var[c(TRUE, FALSE)]
+
+
+for (i in 1:length(var)){
+  df = data.frame(temp1 = rep(NA,dim(get(var[i]))[1]), temp2 = rep(NA,dim(get(var[i]))[1]))
+  names(df)[1] = paste0(tail(str_split(var[i], c("_"))[[1]], n=5)[[1]],"_coloc")
+  names(df)[2] = paste0(tail(str_split(var[i], c("_"))[[1]], n=5)[[1]],"_index")
+  assign(var[i],cbind(get(var[i]), df))
+}
+
+for (i in 1:length(var)){
+  assign(var[i],cbind(get(var[i])[,c(1:(dim(get(var[i]))[2]-6))], get(var[i])[,c("YOYO1_coloc", "YOYO1_index","Top2a_coloc", "Top2a_index", "MYC_coloc", "MYC_index")]))
+}
 
 
 #Define vectors with categories that will be added as the data is concatenated 
@@ -63,18 +169,15 @@ rep=c("FFRT1","FFRY1",
       "FRT1","FRY1",
       "FST1","FSY1")
 
-condition = c(rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
-              rep(c("100nM MYC"),6),
-              rep(c("25nM Top2\u03b1"),6),
-              rep(c("25nM Top2\u03b1 \n25nM MYC"),6),
-              rep(c("25nM Top2\u03b1 \n50nM MYC"),6),
-              rep(c("25nM Top2\u03b1 \n75nM MYC"),6))
+condition = c(rep(c("25nM Top2\u03b1 \n100nM MYC"),3),
+              rep(c("100nM MYC"),3),
+              rep(c("25nM Top2\u03b1"),3),
+              rep(c("25nM Top2\u03b1 \n25nM MYC"),3),
+              rep(c("25nM Top2\u03b1 \n50nM MYC"),3),
+              rep(c("25nM Top2\u03b1 \n75nM MYC"),3))
 
 channel = rep(c("MYC",
-                "MYC",
                 "Top2\u03b1",
-                "Top2\u03b1",
-                "YOYO1",
                 "YOYO1"),6)
 
 ylab=c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
@@ -112,3 +215,13 @@ for (i in 1:length(var)){
   temp.data = rbind(temp.data, data)
 }
 
+## Import img stat and add channel column for grouping
+temp.data.imgstat = data.frame()
+for (i in 1:length(var_csv)){
+  data = data.frame(get(paste0(var_csv[i])), Plasmid = unique(condition)[i])
+  temp.data.imgstat = rbind(temp.data.imgstat, data)
+}
+
+temp.data.imgstat[grep("C1",temp.data.imgstat$Label),"Channel"] = "C1"
+temp.data.imgstat[grep("C2",temp.data.imgstat$Label),"Channel"] = "C2"
+temp.data.imgstat[grep("C3",temp.data.imgstat$Label),"Channel"] = "C3"

@@ -9,8 +9,8 @@ source("Scripts/dependencies.R")
 
 
 tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Figure 4/Data_explo/","scatter_Area_IntDen_MYC_Raw.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data[!(temp.data$Experiment == condition[13] & temp.data$Plasmid == channel[1]) & !(temp.data$Experiment == condition[7] & temp.data$Plasmid == channel[3]),], aes(y = Area, x = IntDen, shape = Experiment, color = Plasmid)) +
-  geom_point()+
+ggplot(temp.data[!(temp.data$Experiment == condition[4] & temp.data$Plasmid == channel[2]) & !(temp.data$Experiment == condition[7] & temp.data$Plasmid == channel[1]) & temp.data$Top2a_coloc == TRUE & temp.data$Plasmid == "YOYO1",], aes(y = Area, x = IntDen, color = Plasmid)) +
+  geom_point(alpha = 0.5)+
   facet_wrap(.~Experiment, scale="free_x")+
   #scale_fill_viridis(alpha=0.5, discrete = TRUE)+
   labs(title = 'Area VS IntDen - non & colocalised population', subtitle = "25 Top2\u03b1 - 25-100nM MYC 250 pFLIP-FUSE - supercoiled - w/o ATP", caption = "1 Replicates")+

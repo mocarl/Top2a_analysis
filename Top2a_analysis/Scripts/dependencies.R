@@ -20,6 +20,7 @@ library(plotrix)
 library(smacpod)
 library(pls)
 library(grid)
+library(scales)
 ####
 
 ### Function depedencies
