@@ -12,6 +12,7 @@ file.list = file.list[apply(sapply(X = str, FUN = grepl, file.list), MARGIN =  1
 ## List all xlsx file recursively for all conditions
 name <- sub(".xlsx*","",sub("(/*)","",sub("(.*)(/.*)", "\\2", basename(file.list)))) 
 ## Reformat strings to generate comprehensible variable names matching xlsx files
+var_xlsx = c()
 for(k in 1:length(file.list)){
   df = data.frame()
   a <- loadWorkbook(file.list[k])
@@ -21,5 +22,7 @@ for(k in 1:length(file.list)){
     df = rbind(df, readWorkbook(a,sheet = i))
   }                         # Store all files in list
   assign(name[k], df, envir = parent.frame())
+  var_xlsx = c(var_xlsx, name[k])
 }
+assign("var_xlsx", var_xlsx, parent.frame())
 }

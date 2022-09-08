@@ -34,7 +34,7 @@ for (i=0; i<list.length; i++) {
               processFiles(""+dir+list[i]);
           else {
              showProgress(n++, count);
-             percent = (n++ / count)*100;
+             percent = ((n++ / count)/2)*100;
              showStatus("!"+percent+"%");
              path = dir+list[i];
              processFile(path);
@@ -69,17 +69,24 @@ for (i=0; i<list.length; i++) {
 			mask = "C" + C + "-" + mask_title;
 			C++;
 			selectWindow(mask);
-		//Generate masks on each memeber of stack
-		//run("Maximum...", "radius=1 stack");
-		//run("Unsharp Mask...", "radius=1 mask=0.60 stack");
-		//run("Gaussian Blur...", "sigma=1 stack");
+			//Generate masks on each memeber of stack
+			if (p > 0) {
+				run("Maximum...", "radius=1 stack");
+				run("Unsharp Mask...", "radius=1 mask=0.60 stack");
+				run("Gaussian Blur...", "sigma=1 stack");
+				run("Auto Threshold", "method=Triangle ignore_black ignore_white white stack");
+				setOption("BlackBackground", true);
+				run("Dilate", "stack");
+				run("Close-", "stack");
+				run("Open", "stack");
+				run("Watershed", "stack");
+			
+			} else {
 		run("Auto Threshold", "method=Triangle ignore_black ignore_white white stack");
 		setOption("BlackBackground", true);
-		//run("Dilate", "stack");
-		//run("Erode", "stack");
-		//run("Close-", "stack");
 		run("Open", "stack");
 		run("Watershed", "stack");
+			}
 		}
 		//Split channels and create reference
 		selectImage(original);

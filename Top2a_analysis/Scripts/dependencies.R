@@ -20,6 +20,7 @@ library(plotrix)
 library(smacpod)
 library(pls)
 library(grid)
+library(scales)
 ####
 
 ### Function depedencies
@@ -32,4 +33,4 @@ source("Scripts/Functions/data_consolidation.R")
 source("Scripts/Functions/import_csv.R")
 source("Scripts/Functions/coloc_particles.R")
 source("Scripts/Functions/scatterBar.Norm.R")
-
+source("Scripts/Functions/max_min_norm.R")

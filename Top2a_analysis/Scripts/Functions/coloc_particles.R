@@ -21,18 +21,19 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
       
       if(max(unlist(str_locate_all(data1_labels, c(".czi"))))>max(unlist(str_locate_all(data1_labels, c(".tif"))))){
         if(length(data1_labels)>length(data2_labels)){
-          data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".czi"), "[", 1), collapse = "|"))]
+          data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, "C2"), "[", 2), collapse = "|"))]
           data1=data1[data1$Label %in% data1_labels,]
-        } else {
-          data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".czi"), "[", 1), collapse = "|"))]
+        } else if (length(data1_labels)<length(data2_labels)){
+          data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, "C1"), "[", 2), collapse = "|"))]
           data2=data2[data2$Label %in% data2_labels,]
         }
-      } else {
+      }
+      if(max(unlist(str_locate_all(data1_labels, c(".tif"))))>max(unlist(str_locate_all(data1_labels, c(".czi"))))) {
         if(length(data1_labels)>length(data2_labels)){
-          data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, ".tif"), "[", 1), collapse = "|"))]
+          data1_labels = data1_labels[str_detect(data1_labels,str_c(sapply(strsplit(data2_labels, "C2"), "[", 2), collapse = "|"))]
           data1=data1[data1$Label %in% data1_labels,]
-        } else {
-          data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, ".tif"), "[", 1), collapse = "|"))]
+        } else if (length(data1_labels)<length(data2_labels)) {
+          data2_labels = data2_labels[str_detect(data2_labels,str_c(sapply(strsplit(data1_labels, "C1"), "[", 2), collapse = "|"))]
           data2=data2[data2$Label %in% data2_labels,]
         }
       }
@@ -40,12 +41,17 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
     
       data1["Coloc"] = NA
       data2["Coloc"] = NA
+      data1["Coloc.index"] = NA
+      data2["Coloc.index"] = NA
       data1.temp = c()
       data2.temp = c()
-      
+      Coloc.index1 = c()
+      Coloc.index2 = c()
       for (n in 1:length(data1_labels)) {
         ### Points with intersecting circles r are assumed to be likely colocalised
         temp.mask = matrix(nrow = dim(data2[data2$Label == data2_labels[n],])[1], ncol = dim(data1[data1$Label == data1_labels[n],])[1])
+        ID.index1 = rep(NA,dim(data1[data1$Label == data1_labels[n],])[1])
+        ID.index2 = rep(NA,dim(data2[data2$Label == data2_labels[n],])[1])
         for (i in 1:dim(data1[data1$Label == data1_labels[n],])[1]) {
           x= data1[data1$Label == data1_labels[n],]$XM[[i]]
           y= data1[data1$Label == data1_labels[n],]$YM[[i]]
@@ -56,25 +62,50 @@ coloc_particles <- function(channel1,channel2,output_path, label = NULL)
           r2=sqrt(data2[data2$Label == data2_labels[n],]$Area/pi)
           temp.mask[,i] = d<(r1+r2)
           data1.temp = c(data1.temp, sum(temp.mask[,i]))
-        }
-        data2.temp = c(data2.temp,rowSums(temp.mask))
-        for (m in 1:dim(data1[data1$Label == data1_labels[n],])[1]) {
           
         }
+        #Check for particles with multiple candidates and find the closest
+        if (length(unique(which(temp.mask, arr.ind = TRUE)[,2])) < dim(which(temp.mask, arr.ind = TRUE))[1]){
+          vec = which(temp.mask, arr.ind = TRUE)
+          vec = vec[duplicated(vec[,2]) | duplicated(vec[,2], fromLast=TRUE),]
+          for (q in unique(vec[,2])){
+            x= data1[data1$Label == data1_labels[n],]$XM[[q]]
+            y= data1[data1$Label == data1_labels[n],]$YM[[q]]
+            h= data2[data2$Label == data2_labels[n],]$XM[vec[vec[,2]==q,1]]
+            k= data2[data2$Label == data2_labels[n],]$YM[vec[vec[,2]==q,1]]
+            if(dim(vec[vec[,2]==q,])[1]>2){
+              temp.mask[vec[vec[,2]==q,][-which.min(sqrt((x-h)^2+(y-k)^2)),]] = FALSE
+            } else {
+              temp.mask[vec[vec[,2]==q,][-which.min(sqrt((x-h)^2+(y-k)^2)),][1],vec[vec[,2]==q,][-which.min(sqrt((x-h)^2+(y-k)^2)),][2]] = FALSE
+            }
+          }
+        }
+        #Generate vectors with indicies for colocalised particles for subsequent tracking
+        ID.arrayInd = arrayInd(which(temp.mask), dim(temp.mask))
+        ID.index1[ID.arrayInd[,2]] = ID.arrayInd[,1]
+        ID.index2[ID.arrayInd[,1]] = ID.arrayInd[,2]
+        Coloc.index1 = c(Coloc.index1, ID.index1)
+        Coloc.index2 = c(Coloc.index2, ID.index2)
+        data2.temp = c(data2.temp,rowSums(temp.mask))
+        
       }
-      data1["Coloc"] = data1.temp > 0
-      data2["Coloc"] = data2.temp > 0
+      
       if (is.null(label)){
+        data1["Coloc"] = data1.temp > 0
+        data2["Coloc"] = data2.temp > 0
+        data1["Coloc.index"] = Coloc.index1
+        data2["Coloc.index"] = Coloc.index2
         write_csv(data1, file = paste0(output_path,"/",p,"_coloc_pop.csv"))
         write_csv(data2, file = paste0(output_path,"/",j,"_coloc_pop.csv"))
       } else {
+        data1[paste0(label[1],".coloc")] = data1.temp > 0
+        data2[paste0(label[2],".coloc")] = data2.temp > 0
+        data1[paste0(label[1],".coloc.index")] = Coloc.index1
+        data2[paste0(label[2],".coloc.index")] = Coloc.index2
         write_csv(data1, file = paste0(output_path,"/",p,"_",label[1],"_coloc_pop.csv"))
         write_csv(data2, file = paste0(output_path,"/",j,"_",label[2],"_coloc_pop.csv"))
       }
-      
-      
-      }
   }
-
+}
 
 
