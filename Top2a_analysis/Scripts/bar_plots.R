@@ -35,10 +35,10 @@ svg(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top
 tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Figure 4/Kathryn_Donald_temp/","relColoc_Top2a_MYC_95th.tiff",sep = ""), width = 5, height = 5, units = "in", res = 300, pointsize = 7)
 #Plot command
 #Coloc statistics
-ggplot(coloc_stats[-c(13,14),], aes(x=Experiment, y=Coloc.Per, fill=Category, na.rm= TRUE)) +
-  geom_bar(aes(fill=Category),width = 0.7,position = position_dodge(0.5),
+ggplot(coloc_stats[coloc_stats$Plasmid == "YOYO1" & coloc_stats$Coloc.channel != "YOYO1_coloc",], aes(x=Experiment, y=Coloc, fill=Coloc.channel, na.rm= TRUE)) +
+  geom_bar(width = 0.7,position = position_dodge(0.5),
            stat = "identity", color= "white", na.rm = TRUE)+
-  labs(title="Relative colocalisation of Top2\u03b1 \nand MYC in large DNA droplets", x="Conditions", y ="Relative colocalisation", caption = "1 replicate, 95th percentile only")+
+  labs(title="Relative colocalisation of Top2\u03b1 \nand MYC in DNA droplets", x="Conditions", y ="Relative colocalisation", caption = "1 replicate")+
   scale_fill_manual(values=c("#E1BE6A", "#40B0A6","#D6E897"))+
   theme_minimal()+
   ylim(0,100)+

@@ -30,21 +30,21 @@ for (i in 1:length(temp.var)) {
 }
 
 ##
+temp.temp.data = temp.data
 coloc_stats = data.frame()
 for (i in 1:length(condition)) {
-  data = temp.data[temp.data$Experiment == condition[i] & temp.data$Plasmid == channel[i],]
+  data = temp.temp.data[temp.temp.data$Experiment == condition[i] & temp.temp.data$Plasmid == channel[i],]
   #q = quantile(data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
   #data = data[data$Area<q[2] & data$Area>q[1] & data$Circ.>0.5,] # Remove 5th and 95th percentile
   #data = data[data$Area>q[2] & data$Circ.>0.5,] # 95th percentile only
   for (k in c("YOYO1_coloc","Top2a_coloc", "MYC_coloc")) {
     result = sum(data[k], na.rm = TRUE)/dim(data[k])[1]*100
-    coloc_stats = rbind(coloc_stats, data.frame(Experiment=condition[i] ,Coloc = result, Plasmid = channel[i]))
+    coloc_stats = rbind(coloc_stats, data.frame(Experiment=condition[i] ,Coloc = result, Plasmid = channel[i], Coloc.channel = k))
   }
 
   #coloc_stats = rbind(coloc_stats, data.frame(Experiment=unique(condition)[i] ,eval(parse(text=k)) = result))
 }
 
-c("YOYO1_coloc", "YOYO1_index","Top2a_coloc", "Top2a_index", "MYC_coloc", "MYC_index")
 # Find double positive DNA droplets
 
 for (i in seq(1,length(temp.var),2)) {
@@ -106,7 +106,7 @@ intensity_stats[18,"Coloc.Per"] = sum(data1[which(data1$Coloc == FALSE),"RawIntD
 ### Plot section
 
 tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 4/MYC/","box_relative_coloc_MYConly_95th.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
- ggplot(coloc_stats, aes(x=Experiment, y=Coloc.Per, fill=Category, label = Category)) +
+ ggplot(coloc_stats, aes(x=Experiment, y=Coloc, fill=Coloc.channel, group = Plasmid ))+
   geom_boxplot(width= 0.5, position = position_dodge(0.1)) +
    #geom_jitter(width = 0.2, color = "grey", alpha = 0.5)+
    #geom_text(check_overlap = TRUE,position=position_jitter(width=0.15))+
