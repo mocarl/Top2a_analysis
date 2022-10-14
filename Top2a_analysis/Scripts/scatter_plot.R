@@ -9,9 +9,9 @@ source("Scripts/dependencies.R")
 
 
 tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Figure 4/Data_explo/","scatter_Area_IntDen_MYC_Raw.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data[!(temp.data$Experiment == condition[4] & temp.data$Plasmid == channel[2]) & !(temp.data$Experiment == condition[7] & temp.data$Plasmid == channel[1]) & temp.data$Top2a_coloc == TRUE & temp.data$Plasmid == "YOYO1",], aes(y = Area, x = IntDen, color = Plasmid)) +
+ggplot(temp.data, aes(y = Area, x = Mean, color = Channel)) +
   geom_point(alpha = 0.5)+
-  facet_wrap(.~Experiment, scale="free_x")+
+  facet_wrap(.~Experiment + coloc, scale="free_x")+
   #scale_fill_viridis(alpha=0.5, discrete = TRUE)+
   labs(title = 'Area VS IntDen - non & colocalised population', subtitle = "25 Top2\u03b1 - 25-100nM MYC 250 pFLIP-FUSE - supercoiled - w/o ATP", caption = "1 Replicates")+
   theme(
@@ -23,7 +23,7 @@ ggplot(temp.data[!(temp.data$Experiment == condition[4] & temp.data$Plasmid == c
   scale_fill_manual(
     name = "Channel", values = c("#5982e2", "#e55151", "#225500"),
     labels = unique(channel))+
-ylim(0,250)
+ylim(0,50)
 #coord_fixed(ratio = 0.4)
-scale_x_discrete(breaks=unique(rep),labels=ylab)
+#scale_x_discrete(breaks=unique(rep),labels=ylab)
 dev.off()

@@ -58,23 +58,24 @@ xlabs <- c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
 ### Area distribution with median
 #temp[temp$Coloc == TRUE & temp$Plasmid==c("pFLIP-FUSE-supercoiled","pFLIP-supercoiled"),]
 #temp.data[temp.data$Coloc == FALSE & temp.data$Plasmid == "MYC/YOYO1" | temp.data$Coloc == FALSE & temp.data$Plasmid == "YOYO1/MYC",]
-tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Figure 2/V3/","box_plot_Mean_replicates.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data, aes(y = Median, x = Coloc, fill = Plasmid)) +
+tiff(file=paste("Output/V4/","box_plot_Mean_replicates.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+ggplot(temp.data, aes(y = Mean, x = Repeat, fill = Channel)) +
   geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.6))+
-  facet_wrap(.~Experiment, scale="free_x")+
+  facet_wrap(.~coloc + Experiment, scale="free_x")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
-  labs(title = 'Mean intensity - non & colocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - supercoiled/relaxed - w/o ATP", caption = "3 Replicates - 5th and 95th percentile removed")+
+  labs(title = 'Mean intensity - non & colocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - supercoiled/relaxed - w/o ATP", caption = "2 Replicates")+
   theme(
     legend.position="right",
     panel.spacing.x = unit(0, "lines"),
     strip.text.x = element_text(size = 8),
     axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
   theme_minimal()+
-  xlab("Particle area distribution") +
-  ylab("\u03bcm^2")
-  ylim(0,1500)
+  #xlab("Particle area distribution") +
+  #ylab("\u03bcm^2")+
+  ylab("a.u.")+
+  ylim(0,2500)
   #coord_fixed(ratio = 0.4)
-  scale_x_discrete(breaks=unique(rep),labels=ylab)
+  #scale_x_discrete(breaks=unique(rep),labels=ylab)
 dev.off()
 
 scale_fill_manual(
