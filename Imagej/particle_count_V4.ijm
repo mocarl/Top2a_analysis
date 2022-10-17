@@ -83,7 +83,6 @@ for (i=0; i<list.length; i++) {
 			C++;
 			selectWindow(mask);
 			//Generate masks on each memeber of stack
-			if (chan[p] == "Yoyo1") {
 				run("Maximum...", "radius=1 stack");
 				run("Unsharp Mask...", "radius=1 mask=0.60 stack");
 				run("Gaussian Blur...", "sigma=1 stack");
@@ -93,13 +92,6 @@ for (i=0; i<list.length; i++) {
 				run("Close-", "stack");
 				run("Open", "stack");
 				run("Watershed", "stack");
-			
-			} else {
-		run("Auto Threshold", "method=Triangle ignore_black ignore_white white stack");
-		setOption("BlackBackground", true);
-		run("Open", "stack");
-		run("Watershed", "stack");
-			}
 		}
 		//Split channels and create reference
 		selectImage(original);

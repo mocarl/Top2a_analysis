@@ -1,11 +1,14 @@
-// "particle_count_V4"
+// "particle_count_top_down"
 //
-// This macro detects particles in dual-channel images 
+// This macro detects particles in dual/triple-channel images 
+// Method uses Yoyo1 channel to detect particles and then applies the list of ROI on the subsequent channels to find corresponding particles in other channels
 // This macro batch processes all the files in a folder and any
 // subfolders in that folder. In this example, it runs the Subtract 
 // Background command of TIFF files. For other kinds of processing,
 // edit the processFile() function at the end of this macro.
 
+var top;
+var chan;
 dir = getDirectory("Choose a Directory ");
 list = getFileList(dir);
 setBatchMode(true);
@@ -49,7 +52,11 @@ for (i=0; i<list.length; i++) {
 		run("Bio-Formats Importer", "open=path autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT stitch_tiles");
 		getDimensions(width, height, channels, slices, frames);
 		original = getImageID();
-		chan = find_channel(path);
+		find_channel(path);
+		if (i == 0) {
+		choose_ref();
+		top++;
+		}
 		//luts = newArray("thallium", "Red Hot", "Orange Hot");
 		luts = newArray();
 		for (p = 0; p < chan.length; p++) {
@@ -57,11 +64,11 @@ for (i=0; i<list.length; i++) {
 			luts = Array.concat(luts,"Green");
 		} else if (chan[p] == "AF647") {
 		luts = Array.concat(luts,"Red");
-		} else {
+		} else if (chan[p] == "AF546") {
 		luts = Array.concat(luts,"Orange Hot");
 		}
 		}
-		Array.print(luts);
+		//Array.print(luts);
 		if (channels < 2) {
 			continue;
 		} else {
@@ -77,13 +84,9 @@ for (i=0; i<list.length; i++) {
 		mask_title = getTitle();
 		selectWindow(mask_title);
 		run("Split Channels");
-		C = 1;
-		for (p = 0; p < channels; p++) {
-			mask = "C" + C + "-" + mask_title;
-			C++;
+			mask = "C" + top + "-" + mask_title;
 			selectWindow(mask);
 			//Generate masks on each memeber of stack
-			if (chan[p] == "Yoyo1") {
 				run("Maximum...", "radius=1 stack");
 				run("Unsharp Mask...", "radius=1 mask=0.60 stack");
 				run("Gaussian Blur...", "sigma=1 stack");
@@ -94,13 +97,7 @@ for (i=0; i<list.length; i++) {
 				run("Open", "stack");
 				run("Watershed", "stack");
 			
-			} else {
-		run("Auto Threshold", "method=Triangle ignore_black ignore_white white stack");
-		setOption("BlackBackground", true);
-		run("Open", "stack");
-		run("Watershed", "stack");
-			}
-		}
+		
 		//Split channels and create reference
 		selectImage(original);
 		Property.set("CompositeProjection", "null");
@@ -113,7 +110,6 @@ for (i=0; i<list.length; i++) {
 		C = 1;
 		for (q = 0; q < channels; q++) {
 			redir = "C" + C + "-" + original_title;
-			mask = "C" + C + "-" + mask_title;
 			C++;
 			run("Set Measurements...", "area mean standard min centroid center perimeter bounding fit shape feret's integrated median skewness area_fraction limit display redirect=[" + redir + "] decimal=3");
 			selectWindow(mask);
@@ -132,7 +128,6 @@ for (i=0; i<list.length; i++) {
 			saveAs("tiff", dir + File.getName(list[i]) + "_" + chan[q] + "_overlay_outlines.tiff"); 
 			close(redir + "_overlay_outlines.tiff");
 			close(redir);
-			close(mask);
 //Save outline images
 		drawings = getList("image.titles");
 		for(m=0;m<drawings.length;m++){
@@ -183,6 +178,22 @@ function find_channel(path) {
 		chan = Array.concat(chan,val);
 		C++;
 		}
-		Array.print(chan);
+		//Array.print(chan);
 		return chan;
+}
+
+function choose_ref() { 
+// function description choose channel to be used reference channel
+
+//waitForUser("Choose reference channel");
+Dialog.create("Choose your reference channel");  //enable user interactivity
+ for (i = 0; i < chan.length; i++) {
+	 Dialog.addMessage(i + "-" + chan[i]);
+//choices = Array.concat(choices,choice);
+}
+//Dialog.addChoice("Reference channel is:", Array.getSequence(chan.length));
+ Dialog.addNumber("Reference channel is:", 0);
+Dialog.show();
+	top = Dialog.getNumber();
+   	//top = Dialog.getChoice();
 }
