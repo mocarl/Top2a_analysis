@@ -52,7 +52,7 @@ for (i=0; i<list.length; i++) {
 		run("Bio-Formats Importer", "open=path autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT stitch_tiles");
 		getDimensions(width, height, channels, slices, frames);
 		original = getImageID();
-		find_channel(path);
+		chan = find_channel(path);
 		if (i == 0) {
 		choose_ref();
 		top++;
@@ -108,8 +108,13 @@ for (i=0; i<list.length; i++) {
 		//mask_title = getTitle();
 		//run("Split Channels");
 		C = 1;
+		overlay_outlines = newArray();
 		for (q = 0; q < channels; q++) {
 			redir = "C" + C + "-" + original_title;
+			if (q > 0) {
+				mask_1 = "C" + C + "-" + mask_title;
+				close(mask_1);
+			}
 			C++;
 			run("Set Measurements...", "area mean standard min centroid center perimeter bounding fit shape feret's integrated median skewness area_fraction limit display redirect=[" + redir + "] decimal=3");
 			selectWindow(mask);
@@ -118,6 +123,8 @@ for (i=0; i<list.length; i++) {
 			run("Analyze Particles...", "size=6-Infinity pixel circularity=0.0-1.00 display exclude clear summarize overlay add");
 			//run("Create Selection");
 			selectWindow(redir);
+			rename(redir + chan[q]);
+			selectWindow(redir + chan[q]);
 			//run("From ROI Manager");
 			roiManager("show all without labels");
 			//run("Restore Selection");
@@ -125,21 +132,11 @@ for (i=0; i<list.length; i++) {
 			run("8-bit");
 			lut = luts[q];
 			run(lut);
-			saveAs("tiff", dir + File.getName(list[i]) + "_" + chan[q] + "_overlay_outlines.tiff"); 
-			close(redir + "_overlay_outlines.tiff");
-			close(redir);
-//Save outline images
-		drawings = getList("image.titles");
-		for(m=0;m<drawings.length;m++){
-			if(startsWith(drawings[m],"Drawing")){
-				selectWindow(drawings[m]);
-				saveAs("tiff", dir + File.getName(list[i]) + "_" + chan[q] + "_outlines.tiff"); 
-				close(File.getName(list[i]) + "_" + chan[q] + "_outlines.tiff");
-				close("drawings[m]");
-			} else {
-			continue;
-			}
-		}
+			//saveAs("tiff", dir + File.getName(list[i]) + "_" + chan[q] + "_overlay_outlines.tiff"); 
+			//close(redir + "_overlay_outlines.tiff");
+			overlay_outlines = Array.concat(overlay_outlines,redir);
+			close(redir + chan[q]);
+
 //Save summary as xls
 		selectWindow("Summary");
 		saveAs("Results", dir + File.getName(list[i]) + "_" + chan[q] + "_Summary.xls"); 
@@ -150,15 +147,18 @@ for (i=0; i<list.length; i++) {
 		if(isOpen("Results")){
 			selectWindow("Results");
 			saveAs("Results", dir + File.getName(list[i]) + "_" + chan[q] + "_Results.csv");
+			close("Results");
 		}
 		
 		}
+		close(mask);
+		montage_overlay(chan);
 		close("*");
 		}
 	}
 }
 
-run("Close");
+//run("Close");
 
 Dialog.create("Message");
   Dialog.addMessage("Data is processed!");
@@ -196,4 +196,18 @@ Dialog.create("Choose your reference channel");  //enable user interactivity
 Dialog.show();
 	top = Dialog.getNumber();
    	//top = Dialog.getChoice();
+}
+
+function montage_overlay(chan) { 
+// function description makes an montage of all overlay images for easier overview
+	run("Images to Stack", "use");
+		run("Grays");
+		run("Enhance Contrast", "saturated=0.35");
+		for (s = 1; s <= chan.length; s++) {
+			//setSlice(s);
+			run("Label...", "format=Text starting=0 interval=1 x=10 y=30 font=24 text=[" + chan[(s-1)] + "] range="+s+"-"+s);
+		}
+		run("Make Montage...", "columns=3 rows=1 scale=1 label");
+		saveAs("tiff", dir + original_title + "_overlay_montage.tif"); 
+		close(original_title + "_overlay_montage.tif");
 }

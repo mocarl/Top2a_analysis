@@ -61,7 +61,7 @@ for (i=0; i<list.length; i++) {
 		luts = Array.concat(luts,"Orange Hot");
 		}
 		}
-		Array.print(luts);
+		//Array.print(luts);
 		if (channels < 2) {
 			continue;
 		} else {
@@ -139,14 +139,14 @@ for (i=0; i<list.length; i++) {
 		}
 //Save summary as xls
 		selectWindow("Summary");
-		saveAs("Results", dir + File.getName(list[i]) + "_" + chan[q] + "_Summary.xls"); 
-		close(File.getName(list[i]) + "_" + chan[q] + "_Summary.xls");
+		saveAs("Results", dir + File.getName(list[i]) + "_C" + q + "_Summary.xls"); 
+		close(File.getName(list[i]) + "_C" + q + "_Summary.xls");
 		close("Summary");
 
 //Save results file as xls
 		if(isOpen("Results")){
 			selectWindow("Results");
-			saveAs("Results", dir + File.getName(list[i]) + "_" + chan[q] + "_Results.csv");
+			saveAs("Results", dir + File.getName(list[i]) + "_C" + q + "_Results.csv");
 		}
 		
 		}
@@ -175,6 +175,6 @@ function find_channel(path) {
 		chan = Array.concat(chan,val);
 		C++;
 		}
-		Array.print(chan);
+		//Array.print(chan);
 		return chan;
 }
