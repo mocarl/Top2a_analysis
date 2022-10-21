@@ -9,7 +9,7 @@ rm(list = ls())
 source("Scripts/dependencies.R")
 
 ### Import and arrange data into one dataframe
-import_xlsx("Data/YOYOcontrol", c("Top2a_results"))
+import_xlsx("/Volumes/Carl_Ext_2/EXPERIMENTS/20221012/100nM_MYC_BSAslide", c("results"))
 import_csv("Data/V4")
 import_csv("Data/V3/MYC", c("img_stat"))
 ## Arrange data into single data frame
