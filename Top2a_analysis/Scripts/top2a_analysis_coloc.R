@@ -23,13 +23,13 @@ for (variable in vector) {
   
 }
 
-coloc_particles("V4_25nM_Top2a_100nM_MYC_rep1_Top2a_results","V4_25nM_Top2a_100nM_MYC_rep1_YOYO1_results","/Volumes/Carl_Ext_2/EXPERIMENTS/20221012/25nM_Top2_100nM_MYC_BSAslide/Rep_1/split/V4", label = c("YOYO1", "Top2a")) #Channel 1 = Top2a Channel 2 = YOYO1
-coloc_particles("V4_25nM_Top2a_100nM_MYC_rep1_Top2a_results","V4_25nM_Top2a_100nM_MYC_rep1_MYC_results","/Volumes/Carl_Ext_2/EXPERIMENTS/20221012/25nM_Top2_100nM_MYC_BSAslide/Rep_1/split/V4", label = c("MYC", "Top2a")) #Channel 1 = Top2a Channel 2 = MYC
-coloc_particles("V4_25nM_Top2a_100nM_MYC_rep1_MYC_results","V4_25nM_Top2a_100nM_MYC_rep1_YOYO1_results","/Volumes/Carl_Ext_2/EXPERIMENTS/20221012/25nM_Top2_100nM_MYC_BSAslide/Rep_1/split/V4", label = c("YOYO1", "MYC")) #Channel 1 = MYC Channel 2 = YOYO1
+coloc_particles("V4_25nM_Top2a_100nM_MYC_rep1_Top2a_results","V4_25nM_Top2a_100nM_MYC_rep1_YOYO1_results","Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide/Rep_1", label = c("YOYO1", "Top2a")) #Channel 1 = Top2a Channel 2 = YOYO1
+coloc_particles("V4_25nM_Top2a_100nM_MYC_rep1_Top2a_results","V4_25nM_Top2a_100nM_MYC_rep1_MYC_results","Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide/Rep_1", label = c("MYC", "Top2a")) #Channel 1 = Top2a Channel 2 = MYC
+coloc_particles("V4_25nM_Top2a_100nM_MYC_rep1_MYC_results","V4_25nM_Top2a_100nM_MYC_rep1_YOYO1_results","Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide/Rep_1", label = c("YOYO1", "MYC")) #Channel 1 = MYC Channel 2 = YOYO1
 
-coloc_particles("V4_25nM_Top2a_100nM_MYC_rep2_Top2a_results","V4_25nM_Top2a_100nM_MYC_rep2_YOYO1_results","/Volumes/Carl_Ext_2/EXPERIMENTS/20221012/25nM_Top2_100nM_MYC_BSAslide/Rep_2/split/V4", label = c("YOYO1", "Top2a")) #Channel 1 = Top2a Channel 2 = YOYO1
-coloc_particles("V4_25nM_Top2a_100nM_MYC_rep2_Top2a_results","V4_25nM_Top2a_100nM_MYC_rep2_MYC_results","/Volumes/Carl_Ext_2/EXPERIMENTS/20221012/25nM_Top2_100nM_MYC_BSAslide/Rep_2/split/V4", label = c("MYC", "Top2a")) #Channel 1 = Top2a Channel 2 = MYC
-coloc_particles("V4_25nM_Top2a_100nM_MYC_rep2_MYC_results","V4_25nM_Top2a_100nM_MYC_rep2_YOYO1_results","/Volumes/Carl_Ext_2/EXPERIMENTS/20221012/25nM_Top2_100nM_MYC_BSAslide/Rep_2/split/V4", label = c("YOYO1", "MYC")) #Channel 1 = MYC Channel 2 = YOYO1
+coloc_particles("V4_25nM_Top2a_100nM_MYC_rep2_Top2a_results","V4_25nM_Top2a_100nM_MYC_rep2_YOYO1_results","Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide/Rep_2", label = c("YOYO1", "Top2a")) #Channel 1 = Top2a Channel 2 = YOYO1
+coloc_particles("V4_25nM_Top2a_100nM_MYC_rep2_Top2a_results","V4_25nM_Top2a_100nM_MYC_rep2_MYC_results","Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide/Rep_2", label = c("MYC", "Top2a")) #Channel 1 = Top2a Channel 2 = MYC
+coloc_particles("V4_25nM_Top2a_100nM_MYC_rep2_MYC_results","V4_25nM_Top2a_100nM_MYC_rep2_YOYO1_results","Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide/Rep_2", label = c("YOYO1", "MYC")) #Channel 1 = MYC Channel 2 = YOYO1
 
 
 coloc_particles("V4_25nM_Top2a_rep1_Top2a_results","V4_25nM_Top2a_rep1_YOYO1_results","/Volumes/Carl_Ext_2/EXPERIMENTS/20221012/25nM_Top2_BSAslide/Rep_1/split/V4", label = c("YOYO1", "Top2a")) #Channel 1 = Top2a Channel 2 = YOYO1
