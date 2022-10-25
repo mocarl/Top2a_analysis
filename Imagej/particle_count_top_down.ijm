@@ -140,7 +140,7 @@ for (i=0; i<list.length; i++) {
 //Save summary as xls
 		selectWindow("Summary");
 		saveAs("Results", dir + File.getName(list[i]) + "_C" + q + "_Summary.xls"); 
-		close(File.getName(list[i]) + "_" + chan[q] + "_Summary.xls");
+		close(File.getName(list[i]) + "_C" + q + "_Summary.xls");
 		close("Summary");
 
 //Save results file as xls
