@@ -21,6 +21,7 @@ library(smacpod)
 library(pls)
 library(grid)
 library(scales)
+library(plotly)
 ####
 
 ### Function depedencies

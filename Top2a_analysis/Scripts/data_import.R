@@ -10,7 +10,7 @@ source("Scripts/dependencies.R")
 
 ### Import and arrange data into one dataframe
 import_xlsx("Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide", c("results"))
-import_csv("Data/V4")
+import_csv("Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide")
 import_csv("Data/V3/MYC", c("img_stat"))
 ## Arrange data into single data frame
 var = setdiff(ls(), lsf.str())
@@ -156,15 +156,15 @@ plasmid=c("pFLIP-FUSE relaxed",
           "pFLIP supercoiled",
           "pFLIP supercoiled")
 
-rep=c(1,1,2,2,rep(c(1),6),rep(c(2),6),1,1,2,2)
+rep=c(rep(c(1),6),rep(c(2),6))
 
-condition = c(rep(c("100nM MYC"),4),
-              rep(c("25nM Top2\u03b1 \n100nM MYC"),12),
+condition = c(rep(c("25nM Top2\u03b1 \n100nM MYC"),12))
+              rep(c("100nM MYC"),4),
               rep(c("25nM Top2\u03b1"),4))
 
-channel = c(rep(c("MYC","YOYO1"),2),
-            rep(c("MYC","MYC","Top2\u03b1","Top2\u03b1","YOYO1","YOYO1"),2),
-            rep(c("Top2\u03b1","YOYO1"),2))
+channel = c(rep(c(rep(c("MYC"),2),
+            rep(c("Top2\u03b1"),2),
+            rep(c("YOYO1"),2)),2))
 
 ylab=c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
         "pFLIP-FUSE-relaxed \nYOYO-1",
@@ -193,8 +193,8 @@ ylab=c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
 
 #Concatenate all the imported data in var into one large data.frame
 temp.data = data.frame()
-for (i in 1:length(var)){
-  data = data.frame(get(paste0(var[i])),Experiment = paste(condition[i]), Channel=paste(channel[i]), Repeat = paste(rep[i]))
+for (i in 1:length(var_csv)){
+  data = data.frame(get(paste0(var_csv[i])),Experiment = paste(condition[i]), Channel=paste(channel[i]), Repeat = paste(rep[i]))
   names(data)[36] = unlist(str_split(names(data[36]), "[.]"))[-1]
   names(data)[37] = paste(unlist(str_split(names(data[37]), "[.]"))[-1],collapse  = "_")
   #q = quantile(data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
