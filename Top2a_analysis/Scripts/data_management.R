@@ -1,7 +1,13 @@
 ### Statistical analysis of Top2a deposited on funcitonalised glass slides
 ## Script consolidates and copies data to R_project folders
 ## Author: Carl Möller mocarl@chalmers.se
-folder = c("/Volumes/Carl_Ext_2/EXPERIMENTS/20221022/25nM_Top2a_100nM_MYC_BSAslides/Rep_1/25nM_Top2a_100nM_MYC_BSAslides_rep1","/Volumes/Carl_Ext_2/EXPERIMENTS/20221022/25nM_Top2a_100nM_MYC_BSAslides/Rep_2/25nM_Top2a_100nM_MYC_BSAslides_rep2")
+
+folder = c("/Volumes/Carl_Ext_2/EXPERIMENTS/20221027/25nM_Top2_100nM_MYC_BSAslide/Rep_1/25nM_Top2_100nM_MYC_BSAslide_rep1",
+           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221027/25nM_Top2_100nM_MYC_BSAslide/Rep_2/25nM_Top2_100nM_MYC_BSAslide_rep2",
+           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221027/25nM_Top2_BSAslide/Rep_1/25nM_Top2_BSAslide_rep1",
+           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221027/25nM_Top2_BSAslide/Rep_2/25nM_Top2_BSAslide_rep2",
+           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221027/100nM_MYC_BSAslide/Rep_1/100nM_MYC_BSAslide_rep1",
+           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221027/100nM_MYC_BSAslide/Rep_2/100nM_MYC_BSAslide_rep2")
 for (i in folder){
 
 #Move mask imagease from Imagej to a separate folder for easier overview

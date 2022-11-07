@@ -58,12 +58,12 @@ xlabs <- c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
 ### Area distribution with median
 #temp[temp$Coloc == TRUE & temp$Plasmid==c("pFLIP-FUSE-supercoiled","pFLIP-supercoiled"),]
 #temp.data[temp.data$Coloc == FALSE & temp.data$Plasmid == "MYC/YOYO1" | temp.data$Coloc == FALSE & temp.data$Plasmid == "YOYO1/MYC",]
-tiff(file=paste("Output/V4/","box_plot_Mean_replicates.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data, aes(y = StdDev, x = Repeat, fill = Channel)) +
+tiff(file=paste("Output/top_down/","box_plot_Mean_zoom.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+ggplot(temp.data, aes(y = Mean, x = BatchRepeat, fill = Channel)) +
   geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.6))+
-  facet_wrap(.~coloc + Experiment, scale="free_x")+
+  facet_wrap(.~TechRepeat + Experiment, scale="free_x")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
-  labs(title = 'Mean intensity - non & colocalised population', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - supercoiled/relaxed - w/o ATP", caption = "2 Replicates")+
+  labs(title = 'Mean intensity - ', subtitle = "10nM Top2\u03b1 - 100nM MYC - 250nM pFLIP/pFLIP-FUSE - supercoiled - w/o ATP", caption = "2 Technical replicates - 2 within batch replicatses")+
   theme(
     legend.position="right",
     panel.spacing.x = unit(0, "lines"),
@@ -77,6 +77,8 @@ ggplot(temp.data, aes(y = StdDev, x = Repeat, fill = Channel)) +
   #coord_fixed(ratio = 0.4)
   #scale_x_discrete(breaks=unique(rep),labels=ylab)
 dev.off()
+
+ggplotly(box)
 
 scale_fill_manual(
   name = "Population", values = c("#E1BE6A", "#40B0A6"),

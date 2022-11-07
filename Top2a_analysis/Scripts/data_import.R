@@ -9,7 +9,9 @@ rm(list = ls())
 source("Scripts/dependencies.R")
 
 ### Import and arrange data into one dataframe
-import_xlsx("Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide", c("results"))
+import_xlsx("Data/V4/20221027", c("results"))
+import_xlsx("Data/top_down/Rep_1", c("results"))
+import_xlsx("Data/top_down/Rep_2", c("results"))
 import_csv("Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide")
 import_csv("Data/V3/MYC", c("img_stat"))
 ## Arrange data into single data frame
@@ -156,47 +158,28 @@ plasmid=c("pFLIP-FUSE relaxed",
           "pFLIP supercoiled",
           "pFLIP supercoiled")
 
-rep=c(rep(c(1),6),rep(c(2),6))
+batch_rep=rep(c(rep(c(1),2),rep(c(2),2),
+      rep(c(1),3),rep(c(2),3),
+      rep(c(1),2),rep(c(2),2)),2)
 
-condition = c(rep(c("25nM Top2\u03b1 \n100nM MYC"),12))
-              rep(c("100nM MYC"),4),
-              rep(c("25nM Top2\u03b1"),4))
+tech_rep=c(rep(c(1),14),rep(c(2),14))
 
-channel = c(rep(c(rep(c("MYC"),2),
-            rep(c("Top2\u03b1"),2),
-            rep(c("YOYO1"),2)),2))
+condition = rep(c(rep(c("100nM MYC"),4),
+              rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
+              rep(c("25nM Top2\u03b1"),4)),2)
 
-ylab=c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
-        "pFLIP-FUSE-relaxed \nYOYO-1",
-        "pFLIP-FUSE-supercoiled \nTop2\u03b1",
-        "pFLIP-FUSE-supercoiled \nYOYO-1",
-        "pFLIP-relaxed \nTop2\u03b1",
-        "pFLIP-relaxed \nYOYO-1",
-        "pFLIP-FUSE-relaxed \nTop2\u03b1",
-        "pFLIP-FUSE-relaxed \nYOYO-1",
-        "pFLIP-supercoiled \nTop2\u03b1",
-        "pFLIP-supercoiled \nYOYO-1",
-        "pFLIP-FUSE-supercoiled \nTop2\u03b1",
-        "pFLIP-FUSE-supercoiled \nYOYO-1",
-        "pFLIP-relaxed \nTop2\u03b1",
-        "pFLIP-relaxed \nYOYO-1",
-        "pFLIP-FUSE-relaxed \nTop2\u03b1",
-        "pFLIP-FUSE-relaxed \nYOYO-1",
-        "pFLIP-supercoiled \nTop2\u03b1",
-        "pFLIP-supercoiled \nYOYO-1",
-        "pFLIP-FUSE-supercoiled \nTop2\u03b1",
-        "pFLIP-FUSE-supercoiled \nYOYO-1",
-        "pFLIP-relaxed \nTop2\u03b1",
-        "pFLIP-relaxed \nYOYO-1",
-        "pFLIP-supercoiled \nTop2\u03b1",
-        "pFLIP-supercoiled \nYOYO-1")
+channel = rep(c(c(rep(c("MYC","YOYO1"),2)),
+                rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2)),2)
+
+
 
 #Concatenate all the imported data in var into one large data.frame
 temp.data = data.frame()
-for (i in 1:length(var_csv)){
-  data = data.frame(get(paste0(var_csv[i])),Experiment = paste(condition[i]), Channel=paste(channel[i]), Repeat = paste(rep[i]))
-  names(data)[36] = unlist(str_split(names(data[36]), "[.]"))[-1]
-  names(data)[37] = paste(unlist(str_split(names(data[37]), "[.]"))[-1],collapse  = "_")
+for (i in 1:length(var)){
+  data = data.frame(get(paste0(var[i])),Experiment = paste(condition[i]), Channel=paste(channel[i]), BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]))
+  #names(data)[36] = unlist(str_split(names(data[36]), "[.]"))[-1] #Change column naming for compatability
+  #names(data)[37] = paste(unlist(str_split(names(data[37]), "[.]"))[-1],collapse  = "_") #Change column naming for compatability
   #q = quantile(data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
   #data = data[data$Area<q[2] & data$Area>q[1] & data$Circ.>0.5,] # Remove 5th and 95th percentile
   #data = data[data$Area>=q[2] & data$Circ.>0.5,] # 95th percentile only
