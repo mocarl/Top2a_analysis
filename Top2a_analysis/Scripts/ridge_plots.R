@@ -39,11 +39,11 @@ q = quantile(temp.data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
 temp = temp.data[temp.data$Area<=q[1] & temp.data$Circ.>0.5,] # Generate temp data set that can be altered until right filter settings are found
 ### Area distribution with median
 tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersUniversityofTechnology/Top2a_project/Figures/Figure 4/MYC/","ridge_plot_area_colocpop_MYConly_95th.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data, aes(x = Mean, fill = Channel, y = Experiment, color = Repeat, height=..density..,scale=0.9)) +
+ggplot(temp.data[temp.data$coloc != FALSE,], aes(x = Area, fill = Channel, y = Experiment, color = BatchRepeat, height=..density..,scale=0.9)) +
   geom_density_ridges(stat = "binline", bins=100,
                       draw_baseline = F, alpha = 1,lwd=0.2 )+
   geom_density_ridges(quantile_lines = TRUE, quantiles = 2, rel_min_height = 0.001, alpha = 0.4, lwd=0.3, colour="black")+
-  facet_wrap(~Repeat, scales = "fixed")
+  facet_wrap(~TechRepeat, scales = "fixed")+
   labs(title = 'Particle area colocalised population', subtitle = "25-100nM MYC - 250nM pFLIP-FUSE-supercoiled - w/o ATP",caption = "1 Replicate - 95th percentile only") +
   theme(
     legend.position="right",
@@ -53,7 +53,7 @@ ggplot(temp.data, aes(x = Mean, fill = Channel, y = Experiment, color = Repeat, 
   theme_minimal()+
   xlab("Particle area histogram/density with median") +
   ylab("Population")+
-  xlim(0,2000)
+  xlim(-1,20)
   scale_fill_cyclical(values = c("#E1BE6A","#40B0A6"),
                       guide = "legend", name = "Channel",
                       labels = c("Top2\u03b1", "YOYO-1"))

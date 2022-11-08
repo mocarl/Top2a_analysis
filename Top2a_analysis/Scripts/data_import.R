@@ -11,12 +11,15 @@ source("Scripts/dependencies.R")
 ### Import and arrange data into one dataframe
 import_xlsx("Data/V4/20221027", c("results"))
 import_xlsx("Data/top_down/Rep_1", c("results"))
-import_xlsx("Data/top_down/Rep_2", c("results"))
-import_csv("Data/V4/20221022/25nM_Top2_100nM_MYC_BSAslide")
+import_xlsx("Data/V4/Rep_2", c("results"))
+import_csv("Data/V4/Rep_1")
 import_csv("Data/V3/MYC", c("img_stat"))
 ## Arrange data into single data frame
 var = setdiff(ls(), lsf.str())
 
+
+## Add prefixes to data
+add_prefix_varname(var_csv, "Rep_1")
 
 names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_MYC_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[1], "_")[[1]], n=3)[[1]],"_coloc")
 names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_MYC_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[1], "_")[[1]], n=3)[[1]],"_index")
@@ -130,6 +133,19 @@ for (i in 1:length(var)){
 }
 
 
+#### Add channel info to coloc column
+for (i in var) {
+  df = get(i)
+  df[which(df[,36]),36] = unlist(str_split(names(df[36]), "[.]"))[-2]
+  assign(i ,df)
+}
+
+## Concatenate vars with duplicated data but different coloc info 
+# Find vars with same dims
+var[which(tabulate(match(unlist(lapply(var,function(x) dim(get(x))[1])),unique(unlist(lapply(var, function(x) dim(get(x))[1])))))>1)]
+
+for
+
 #Define vectors with categories that will be added as the data is concatenated 
 # into one large frame. This will decide how the subsequent plots will be organised
 # Make note that the vector has to have length(var) elements
@@ -158,19 +174,27 @@ plasmid=c("pFLIP-FUSE relaxed",
           "pFLIP supercoiled",
           "pFLIP supercoiled")
 
-batch_rep=rep(c(rep(c(1),2),rep(c(2),2),
-      rep(c(1),3),rep(c(2),3),
-      rep(c(1),2),rep(c(2),2)),2)
+batch_rep=rep(c(rep(c(rep(c(1),2),rep(c(2),2)),2),
+      rep(c(1),6),rep(c(2),6),
+      rep(c(rep(c(1),2),rep(c(2),2))),
+      rep(c(1),6),rep(c(2),6),
+      rep(c(rep(c(1),2),rep(c(2),2)))))
 
-tech_rep=c(rep(c(1),14),rep(c(2),14))
+tech_rep=c(rep(c(1),20),rep(c(2),20))
 
 condition = rep(c(rep(c("100nM MYC"),4),
-              rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
-              rep(c("25nM Top2\u03b1"),4)),2)
+                  rep(c("25nM Top2\u03b1"),4),
+              rep(c("25nM Top2\u03b1 \n100nM MYC"),12),
+              rep(c("100nM MYC"),4),
+              rep(c("25nM Top2\u03b1 \n100nM MYC"),12),
+              rep(c("25nM Top2\u03b1"),4)))
 
-channel = rep(c(c(rep(c("MYC","YOYO1"),2)),
-                rep(c("MYC","Top2\u03b1", "YOYO1"),2),
-            rep(c("Top2\u03b1","YOYO1"),2)),2)
+channel = rep(c(rep(c("MYC","YOYO1"),2),
+              rep(c("Top2\u03b1","YOYO1"),2),
+              rep(c("MYC","MYC","Top2\u03b1","Top2\u03b1", "YOYO1","YOYO1"),2),
+              rep(c("MYC","YOYO1"),2),
+              rep(c("MYC","MYC","Top2\u03b1","Top2\u03b1", "YOYO1","YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2)))
 
 
 
@@ -178,8 +202,8 @@ channel = rep(c(c(rep(c("MYC","YOYO1"),2)),
 temp.data = data.frame()
 for (i in 1:length(var)){
   data = data.frame(get(paste0(var[i])),Experiment = paste(condition[i]), Channel=paste(channel[i]), BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]))
-  #names(data)[36] = unlist(str_split(names(data[36]), "[.]"))[-1] #Change column naming for compatability
-  #names(data)[37] = paste(unlist(str_split(names(data[37]), "[.]"))[-1],collapse  = "_") #Change column naming for compatability
+  names(data)[36] = unlist(str_split(names(data[36]), "[.]"))[-1] #Change column naming for compatability
+  names(data)[37] = paste(unlist(str_split(names(data[37]), "[.]"))[-1],collapse  = "_") #Change column naming for compatability
   #q = quantile(data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
   #data = data[data$Area<q[2] & data$Area>q[1] & data$Circ.>0.5,] # Remove 5th and 95th percentile
   #data = data[data$Area>=q[2] & data$Circ.>0.5,] # 95th percentile only
