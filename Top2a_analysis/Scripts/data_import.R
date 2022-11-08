@@ -136,6 +136,7 @@ for (i in 1:length(var)){
 #### Add channel info to coloc column
 for (i in var) {
   df = get(i)
+  
   df[which(df[,36]),36] = unlist(str_split(names(df[36]), "[.]"))[-2]
   assign(i ,df)
 }
@@ -144,8 +145,30 @@ for (i in var) {
 # Find vars with same dims
 var[which(tabulate(match(unlist(lapply(var,function(x) dim(get(x))[1])),unique(unlist(lapply(var, function(x) dim(get(x))[1])))))>1)]
 
-for
+temp.var = var[duplicated(unlist(lapply(var,function(x) dim(get(x))[1]))) | duplicated(unlist(lapply(var,function(x) dim(get(x))[1])), fromLast = TRUE)]
+for (i in seq(1,length(temp.var),2)) {
+  df = get(temp.var[i])
+  df[,36] = paste(get(temp.var[i])[,36] , get(temp.var[i+1])[,36], sep = "+")
+  assign(paste(temp.var[i]) ,df)
+}
 
+var = var[!var %in% temp.var[c(FALSE,TRUE)]]
+
+for (i in unique(temp.data$coloc)) {
+  if(str_detect(i, "(FALSE[+])|([+]FALSE)")){
+    if(sum(grepl("(FALSE)",str_split(i ,"[+]")[[1]]))>1){
+      temp.data[temp.data$coloc == i,"coloc"] = "FALSE"
+    } else {
+      temp.data[temp.data$coloc == i,"coloc"] = str_split(i ,"[+]")[[1]][!grepl("(FALSE)",str_split(i ,"[+]")[[1]])]
+    }
+  } else {
+    next
+  }
+#  temp.data$coloc == i
+}
+
+temp.data[temp.data$coloc == "FALSE","Coloc"] = FALSE
+temp.data[temp.data$coloc != "FALSE","Coloc"] = TRUE
 #Define vectors with categories that will be added as the data is concatenated 
 # into one large frame. This will decide how the subsequent plots will be organised
 # Make note that the vector has to have length(var) elements
@@ -174,26 +197,26 @@ plasmid=c("pFLIP-FUSE relaxed",
           "pFLIP supercoiled",
           "pFLIP supercoiled")
 
-batch_rep=rep(c(rep(c(rep(c(1),2),rep(c(2),2)),2),
-      rep(c(1),6),rep(c(2),6),
-      rep(c(rep(c(1),2),rep(c(2),2))),
-      rep(c(1),6),rep(c(2),6),
-      rep(c(rep(c(1),2),rep(c(2),2)))))
+batch_rep=c(rep(c(rep(1,2),rep(2,2)),2),
+            c(rep(1,3),rep(2,3)),
+            c(rep(1,2),rep(2,2)),
+            c(rep(1,3),rep(2,3)),
+            c(rep(1,2),rep(2,2)))
 
-tech_rep=c(rep(c(1),20),rep(c(2),20))
+tech_rep=c(rep(c(1),14),rep(c(2),14))
 
 condition = rep(c(rep(c("100nM MYC"),4),
                   rep(c("25nM Top2\u03b1"),4),
-              rep(c("25nM Top2\u03b1 \n100nM MYC"),12),
+              rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
               rep(c("100nM MYC"),4),
-              rep(c("25nM Top2\u03b1 \n100nM MYC"),12),
+              rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
               rep(c("25nM Top2\u03b1"),4)))
 
 channel = rep(c(rep(c("MYC","YOYO1"),2),
               rep(c("Top2\u03b1","YOYO1"),2),
-              rep(c("MYC","MYC","Top2\u03b1","Top2\u03b1", "YOYO1","YOYO1"),2),
+              rep(c("MYC","Top2\u03b1", "YOYO1"),2),
               rep(c("MYC","YOYO1"),2),
-              rep(c("MYC","MYC","Top2\u03b1","Top2\u03b1", "YOYO1","YOYO1"),2),
+              rep(c("MYC","Top2\u03b1", "YOYO1"),2),
             rep(c("Top2\u03b1","YOYO1"),2)))
 
 

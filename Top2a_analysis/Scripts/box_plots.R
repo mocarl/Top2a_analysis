@@ -55,11 +55,14 @@ xlabs <- c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
                   "pFLIP-relaxed \nYOYO-1",
                   "pFLIP-supercoiled \nTop2\u03b1",
                   "pFLIP-supercoiled \nYOYO-1")
-### Area distribution with median
-#temp[temp$Coloc == TRUE & temp$Plasmid==c("pFLIP-FUSE-supercoiled","pFLIP-supercoiled"),]
-#temp.data[temp.data$Coloc == FALSE & temp.data$Plasmid == "MYC/YOYO1" | temp.data$Coloc == FALSE & temp.data$Plasmid == "YOYO1/MYC",]
+
+
+### Truncate data on quantiles
+quantile(temp.data$Mean , c(0.05 , 0.95))
+### PLot boxes
+
 tiff(file=paste("Output/top_down/","box_plot_Mean_zoom.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data, aes(y = Mean, x = BatchRepeat, fill = Channel)) +
+ggplot(temp.data, aes(y = IntDen, x = BatchRepeat, color = Coloc, fill = Channel)) +
   geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.6))+
   facet_wrap(.~TechRepeat + Experiment, scale="free_x")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
@@ -73,7 +76,7 @@ ggplot(temp.data, aes(y = Mean, x = BatchRepeat, fill = Channel)) +
   #xlab("Particle area distribution") +
   #ylab("\u03bcm^2")+
   ylab("a.u.")+
-  ylim(0,5000)
+  ylim(0,50000)
   #coord_fixed(ratio = 0.4)
   #scale_x_discrete(breaks=unique(rep),labels=ylab)
 dev.off()
