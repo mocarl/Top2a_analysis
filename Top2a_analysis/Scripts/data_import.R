@@ -14,6 +14,7 @@ import_xlsx("Data/top_down/Rep_1", c("results"))
 import_xlsx("Data/V4/Rep_2", c("results"))
 import_csv("Data/V4/Rep_1")
 import_csv("Data/V4/Rep_2", c("img_stat"))
+import_csv("Data/top_down/Rep_2", c("img_stat"))
 ## Arrange data into single data frame
 var = setdiff(ls(), lsf.str())
 
@@ -249,6 +250,4 @@ for (i in 1:length(var_img_stat)){
   temp.data.imgstat = rbind(temp.data.imgstat, data)
 }
 
-temp.data.imgstat[grep("C1",temp.data.imgstat$Label),"Channel"] = "C1"
-temp.data.imgstat[grep("C2",temp.data.imgstat$Label),"Channel"] = "C2"
-temp.data.imgstat[grep("C3",temp.data.imgstat$Label),"Channel"] = "C3"
+

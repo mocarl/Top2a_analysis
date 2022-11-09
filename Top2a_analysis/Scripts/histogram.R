@@ -163,9 +163,9 @@ ggplot(comb_data, aes(x = Median, na.rm = TRUE)) +
 dev.off()
   #Single histogram
   
-  ggplot(temp.data[temp.data$Experiment == unique(condition[1]),], aes(x = Mean, fill = Plasmid)) +
-    geom_histogram(alpha = 0.9, bins = 500, position = "identity")+
-    facet_wrap(.~YOYO1_coloc, scale="free_x")+
+  ggplot(temp.data.thresh_mean[temp.data.thresh_mean$Channel == "YOYO1",], aes(x = Mean, fill = Channel)) +
+    geom_histogram(alpha = 0.9, bins = 100, position = "identity")+
+    facet_wrap(.~Experiment + TechRepeat + BatchRepeat, scale="free")+
     scale_fill_viridis(alpha=0.5, discrete = TRUE)+
     labs(title = 'Area VS IntDen - non & colocalised population', subtitle = "25 Top2\u03b1 - 25-100nM MYC 250 pFLIP-FUSE - supercoiled - w/o ATP", caption = "1 Replicates")+
     theme(
@@ -173,11 +173,11 @@ dev.off()
       panel.spacing.x = unit(0, "lines"),
       strip.text.x = element_text(size = 8),
       axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
-    theme_minimal()+
-    scale_fill_manual(
-      name = "Channel", values = c("#5982e2", "#e55151", "#225500"),
-      labels = unique(channel))
-  ylim(0,.5)
+    theme_minimal()
+    #scale_fill_manual(
+     # name = "Channel", values = c("#5982e2", "#e55151", "#225500"),
+      #labels = unique(channel))
+  xlim(0,5000)
   
   
 
