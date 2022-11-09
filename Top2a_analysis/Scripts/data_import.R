@@ -13,13 +13,13 @@ import_xlsx("Data/V4/20221027", c("results"))
 import_xlsx("Data/top_down/Rep_1", c("results"))
 import_xlsx("Data/V4/Rep_2", c("results"))
 import_csv("Data/V4/Rep_1")
-import_csv("Data/V3/MYC", c("img_stat"))
+import_csv("Data/V4/Rep_2", c("img_stat"))
 ## Arrange data into single data frame
 var = setdiff(ls(), lsf.str())
 
 
 ## Add prefixes to data
-add_prefix_varname(var_csv, "Rep_1")
+add_prefix_varname(var_csv, "Rep_2")
 
 names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_MYC_results_Top2a_coloc_pop`)[34] = paste0(tail(str_split(var[1], "_")[[1]], n=3)[[1]],"_coloc")
 names(`2022-06-14-sc_pFLIP_FUSE_+_25_nM_TOP2A_+_100_nM_MYC_V3_MYC_results_Top2a_coloc_pop`)[35] = paste0(tail(str_split(var[1], "_")[[1]], n=3)[[1]],"_index")
@@ -234,9 +234,18 @@ for (i in 1:length(var)){
 }
 
 ## Import img stat and add channel column for grouping
+var_img_stat = setdiff(ls(), lsf.str())
+var_img_stat = var_img_stat[str_detect(var_img_stat, "img_stat")]
+
+batch_rep = rep(c(1,2),length(var_img_stat)/2)
+tech_rep = c(rep(1,length(var_img_stat)/2),rep(2,length(var_img_stat)/2))
+condition = rep(c(rep(c("100nM MYC"),2),
+                  rep(c("25nM Top2\u03b1 \n100nM MYC"),2),
+                  rep(c("25nM Top2\u03b1"),2)),2)
+  
 temp.data.imgstat = data.frame()
-for (i in 1:length(var_csv)){
-  data = data.frame(get(paste0(var_csv[i])), Plasmid = unique(condition)[i])
+for (i in 1:length(var_img_stat)){
+  data = data.frame(get(paste0(var_img_stat[i])), Experiment = paste(condition[i]), BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]))
   temp.data.imgstat = rbind(temp.data.imgstat, data)
 }
 

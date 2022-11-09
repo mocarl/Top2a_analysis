@@ -19,7 +19,7 @@ for (i=0; i<list.length; i++) {
       list = getFileList(dir);
       for (i=0; i<list.length; i++) {
           if (endsWith(list[i], "/"))
-              countFiles(""+dir+list[i]);
+              countFiles(""+dir+list[i]); 
           else
               count++;
       }
