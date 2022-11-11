@@ -57,13 +57,18 @@ xlabs <- c( "pFLIP-FUSE-relaxed \nTop2\u03b1",
                   "pFLIP-supercoiled \nYOYO-1")
 
 
-### Truncate data on quantiles
-quantile(temp.data$Mean , c(0.05 , 0.95))
+
 ### PLot boxes
+df = data.frame(IntDen = temp.data.sub_mean_75th[,"Area"]*temp.data.sub_mean_75th[,"Mean"],
+                Experiment = temp.data.sub_mean_75th[,"Experiment"], 
+                BatchRepeat = temp.data.sub_mean_75th[,"BatchRepeat"], 
+                Channel = temp.data.sub_mean_75th[,"Channel"],
+                TechRepeat = temp.data.sub_mean_75th[,"TechRepeat"])
 
 tiff(file=paste("Output/top_down/","box_plot_Mean_zoom.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data.thresh_mean[temp.data.thresh_mean$Mean>0,], aes(y = Mean, x = BatchRepeat, fill = Channel)) +
+ggplot(df[df$Channel == "YOYO1",], aes(y = IntDen, x = BatchRepeat, fill = Channel)) +
   geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.6))+
+  #geom_text(aes(label=..count..), y=0, stat='count', colour="red", size=4)+
   facet_wrap(.~TechRepeat + Experiment, scale="free_x")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
   labs(title = 'Mean intensity - ', subtitle = "10nM Top2\u03b1 - 100nM MYC - 250nM pFLIP/pFLIP-FUSE - supercoiled - w/o ATP", caption = "2 Technical replicates - 2 within batch replicatses")+
@@ -76,7 +81,7 @@ ggplot(temp.data.thresh_mean[temp.data.thresh_mean$Mean>0,], aes(y = Mean, x = B
   #xlab("Particle area distribution") +
   #ylab("\u03bcm^2")+
   ylab("a.u.")+
-  ylim(0,10000)
+  ylim(100,25000)
   #coord_fixed(ratio = 0.4)
   #scale_x_discrete(breaks=unique(rep),labels=ylab)
 dev.off()

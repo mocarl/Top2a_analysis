@@ -51,7 +51,7 @@ for (i=0; i<list.length; i++) {
 		//Open image and duplicate it. Create image IDs for later reference
 		run("Bio-Formats Importer", "open=path autoscale color_mode=Default rois_import=[ROI manager] view=Hyperstack stack_order=XYCZT stitch_tiles");
 		getDimensions(width, height, channels, slices, frames);
-		original = getImageID();
+		original = getTitle();
 		chan = find_channel(path);
 		if (i == 0) {
 		choose_ref();
@@ -70,7 +70,51 @@ for (i=0; i<list.length; i++) {
 		}
 		//Array.print(luts);
 		if (channels < 2) {
-			continue;
+
+		selectImage(original);
+		run("Duplicate...", "duplicate");
+		mask_title = getTitle();
+		selectWindow(mask_title);
+			//Generate mask
+				run("Maximum...", "radius=1 stack");
+				run("Unsharp Mask...", "radius=1 mask=0.60 stack");
+				run("Gaussian Blur...", "sigma=1 stack");
+				run("Auto Threshold", "method=Triangle ignore_black ignore_white white stack");
+				setOption("BlackBackground", true);
+				run("Dilate", "stack");
+				run("Close-", "stack");
+				run("Open", "stack");
+				run("Watershed", "stack");
+			
+			run("Set Measurements...", "area mean standard min centroid center perimeter bounding fit shape feret's integrated median skewness area_fraction limit display redirect=[" + original + "] decimal=3");
+			selectWindow(mask_title);
+			run("Select None");
+				
+			run("Analyze Particles...", "size=6-Infinity pixel circularity=0.0-1.00 display exclude clear summarize overlay add");
+			//run("Create Selection");
+			//run("From ROI Manager");
+			roiManager("show all without labels");
+			//run("Restore Selection");
+			run("Flatten");
+			run("8-bit");
+			lut = "Grays";
+			run(lut);
+			saveAs("tiff", dir + File.getName(list[i]) + "_overlay_outlines.tiff"); 
+			close(File.getName(list[i]) + "_overlay_outlines.tiff");
+			close("mask_title");
+//Save summary as xls
+		selectWindow("Summary");
+		saveAs("Results", dir + File.getName(list[i]) + "_C0_Summary.xls"); 
+		close(File.getName(list[i]) + "_Summary.xls");
+		close("Summary");
+
+//Save results file as xls
+		if(isOpen("Results")){
+			selectWindow("Results");
+			saveAs("Results", dir + File.getName(list[i]) + "_C0_Results.csv");
+			close("Results");
+		}
+
 		} else {
 		for (j = 1; j <= channels; j++) {
 			Stack.setChannel(j);

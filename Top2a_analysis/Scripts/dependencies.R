@@ -22,6 +22,8 @@ library(pls)
 library(grid)
 library(scales)
 library(plotly)
+library(diptest)
+library(LaplacesDemon)
 ####
 
 ### Function depedencies
