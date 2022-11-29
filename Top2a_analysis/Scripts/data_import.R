@@ -198,40 +198,64 @@ plasmid=c("pFLIP-FUSE relaxed",
           "pFLIP supercoiled",
           "pFLIP supercoiled")
 
-batch_rep=c(rep(c(rep(1,2),rep(2,2)),2),
-            c(rep(1,3),rep(2,3)),
-            c(rep(1,2),rep(2,2)),
-            c(rep(1,3),rep(2,3)),
-            c(rep(1,2),rep(2,2)))
+batch_rep=c(rep(c(rep(1,2),
+            rep(2,2),
+            rep(1,3),
+            rep(2,3),
+            rep(1,2),
+            rep(2,2)),2),
+            c(1,2),
+            rep(1,2),
+            rep(2,2),
+            c(1,2),
+            rep(1,2),
+            rep(2,2),
+            rep(1,3),
+            rep(2,3)
+            )
 
-tech_rep=c(rep(c(1),14),rep(c(2),14))
+tech_rep=c(rep(c(1),14),
+           rep(c(2),14),
+           rep(c(1),2),
+           rep(c(3),4),
+           rep(c(2),2),
+           rep(c(3),10)
+           )
 
-condition = rep(c(rep(c("100nM MYC"),4),
-                  rep(c("25nM Top2\u03b1"),4),
-              rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
-              rep(c("100nM MYC"),4),
-              rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
-              rep(c("25nM Top2\u03b1"),4)))
+condition = c(rep(c(rep(c("100nM MYC"),4),
+                  rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
+                  rep(c("25nM Top2\u03b1"),4)),2),
+              rep(c("250nM pFLIP-FUSE-sc"),2),
+              rep(c(rep(c("100nM MYC"),4),
+                    rep(c("250nM pFLIP-FUSE-sc"),2),
+                    rep(c("25nM Top2\u03b1"),4),
+                    rep(c("25nM Top2\u03b1 \n100nM MYC"),6)
+                    )))
 
-channel = rep(c(rep(c("MYC","YOYO1"),2),
-              rep(c("Top2\u03b1","YOYO1"),2),
-              rep(c("MYC","Top2\u03b1", "YOYO1"),2),
-              rep(c("MYC","YOYO1"),2),
-              rep(c("MYC","Top2\u03b1", "YOYO1"),2),
-            rep(c("Top2\u03b1","YOYO1"),2)))
+channel = c(rep(c(rep(c("MYC","YOYO1"),2),
+                rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+                rep(c("Top2\u03b1","YOYO1"),2)),2),
+                rep(c("YOYO1"),2),
+                rep(c("MYC","YOYO1"),2),
+                rep(c("YOYO1"),2),
+                rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+                rep(c("Top2\u03b1","YOYO1"),2)
+            )
+
+ 
 
 
 
 #Concatenate all the imported data in var into one large data.frame
-temp.data = data.frame()
+temp.temp.data = data.frame()
 for (i in 1:length(var)){
   data = data.frame(get(paste0(var[i])),Experiment = paste(condition[i]), Channel=paste(channel[i]), BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]))
-  names(data)[36] = unlist(str_split(names(data[36]), "[.]"))[-1] #Change column naming for compatability
-  names(data)[37] = paste(unlist(str_split(names(data[37]), "[.]"))[-1],collapse  = "_") #Change column naming for compatability
+  #names(data)[36] = unlist(str_split(names(data[36]), "[.]"))[-1] #Change column naming for compatability
+  #names(data)[37] = paste(unlist(str_split(names(data[37]), "[.]"))[-1],collapse  = "_") #Change column naming for compatability
   #q = quantile(data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
   #data = data[data$Area<q[2] & data$Area>q[1] & data$Circ.>0.5,] # Remove 5th and 95th percentile
   #data = data[data$Area>=q[2] & data$Circ.>0.5,] # 95th percentile only
-  temp.data = rbind(temp.data, data)
+  temp.temp.data = rbind(temp.temp.data, data)
 }
 
 ## Import img stat and add channel column for grouping
