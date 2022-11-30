@@ -181,21 +181,21 @@ thresh = mean(temp.data.thresh_mean$Mean)
       #labels = unique(channel))
   xlim(0,2000)
   
-  tiff(file=paste("Output/top_down/","histogram_mean_DNA.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
+  tiff(file=paste("Output/top_down/","histogram_mean_control_DNA_background_adjusted.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
   dev.off()
   
-  ggplot(temp.data.thresh_mean[temp.data.thresh_mean$Channel == "Top2\u03b1",], aes(x = Mean, fill = Experiment)) +
+  ggplot(temp.data.sub_mean[temp.data.sub_mean$Mean > 100,], aes(x = Mean, fill = Experiment)) +
     geom_histogram(aes(y=..density..),alpha = 0.9, bins = 250, position = "identity")+
-    facet_wrap(.~TechRepeat + BatchRepeat, scale="free")+
+    #facet_wrap(.~TechRepeat, scale="free")+
     scale_fill_viridis(alpha=0.5, discrete = TRUE)+
-    labs(title = 'Mean particle intensity - DNA ', subtitle = "Mean intensity of DNA particles - top_down analysis", caption = "")+
+    labs(title = 'Mean particle intensity -  DNA channel background adjusted ', subtitle = "Mean intensity of DNA particles - top_down analysis", caption = "")+
     theme(
       legend.position="right",
       panel.spacing.x = unit(0, "lines"),
       strip.text.x = element_text(size = 8),
       axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
     theme_minimal()+
-    ylab("a.u.")+
+    ylab("Relative count")+
     #scale_fill_manual(
     #name = "Channel", values = c("#5982e2", "#e55151", "#225500"),
     #labels = unique(channel))

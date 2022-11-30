@@ -56,6 +56,7 @@ for (i=0; i<list.length; i++) {
 		if (i == 0) {
 		choose_ref();
 		top++;
+		print(top);
 		}
 		//luts = newArray("thallium", "Red Hot", "Orange Hot");
 		luts = newArray();
@@ -155,7 +156,7 @@ for (i=0; i<list.length; i++) {
 		overlay_outlines = newArray();
 		for (q = 0; q < channels; q++) {
 			redir = "C" + C + "-" + original_title;
-			if (q > 0) {
+			if (C != top) {
 				mask_1 = "C" + C + "-" + mask_title;
 				close(mask_1);
 			}

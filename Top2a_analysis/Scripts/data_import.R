@@ -238,16 +238,18 @@ channel = c(rep(c(rep(c("MYC","YOYO1"),2),
                 rep(c("YOYO1"),2),
                 rep(c("MYC","YOYO1"),2),
                 rep(c("YOYO1"),2),
-                rep(c("MYC","Top2\u03b1", "YOYO1"),2),
-                rep(c("Top2\u03b1","YOYO1"),2)
+            rep(c("Top2\u03b1","YOYO1"),2),
+                rep(c("MYC","Top2\u03b1", "YOYO1"),2)
+                
             )
 
  
 
 
 
+
 #Concatenate all the imported data in var into one large data.frame
-temp.temp.data = data.frame()
+temp.data = data.frame()
 for (i in 1:length(var)){
   data = data.frame(get(paste0(var[i])),Experiment = paste(condition[i]), Channel=paste(channel[i]), BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]))
   #names(data)[36] = unlist(str_split(names(data[36]), "[.]"))[-1] #Change column naming for compatability
@@ -255,7 +257,7 @@ for (i in 1:length(var)){
   #q = quantile(data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
   #data = data[data$Area<q[2] & data$Area>q[1] & data$Circ.>0.5,] # Remove 5th and 95th percentile
   #data = data[data$Area>=q[2] & data$Circ.>0.5,] # 95th percentile only
-  temp.temp.data = rbind(temp.temp.data, data)
+  temp.data = rbind(temp.data, data)
 }
 
 ## Import img stat and add channel column for grouping
@@ -263,14 +265,20 @@ var_img_stat = setdiff(ls(), lsf.str())
 var_img_stat = var_img_stat[str_detect(var_img_stat, "img_stat")]
 
 batch_rep = rep(c(1,2),length(var_img_stat)/2)
-tech_rep = c(rep(1,length(var_img_stat)/2),rep(2,length(var_img_stat)/2))
-condition = rep(c(rep(c("100nM MYC"),2),
+tech_rep = c(rep(1,8),rep(2,6), rep(3,2), rep(2,2), rep(3,4))
+condition = c(rep(c("250nM pFLIP-FUSE-sc"),2),
+                  rep(c(rep(c("100nM MYC"),2),
                   rep(c("25nM Top2\u03b1 \n100nM MYC"),2),
-                  rep(c("25nM Top2\u03b1"),2)),2)
-  
+                  rep(c("25nM Top2\u03b1"),2)),2),
+              rep(c(rep(c("100nM MYC"),2),
+                    rep(c("250nM pFLIP-FUSE-sc"),2),
+                    rep(c("25nM Top2\u03b1"),2),
+                    rep(c("25nM Top2\u03b1 \n100nM MYC"),2)
+                    )))
+  channel = c(rep(c("YOYO1", "Top2\u03b1", "MYC")))
 temp.data.imgstat = data.frame()
 for (i in 1:length(var_img_stat)){
-  data = data.frame(get(paste0(var_img_stat[i])), Experiment = paste(condition[i]), BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]))
+  data = data.frame(get(paste0(var_img_stat[i])), Experiment = paste(condition[i]), Channel = paste(channel[i]),BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]))
   temp.data.imgstat = rbind(temp.data.imgstat, data)
 }
 
