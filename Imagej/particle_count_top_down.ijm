@@ -123,7 +123,7 @@ for (i=0; i<list.length; i++) {
 		}
 		selectImage(original);
 		run("Duplicate...", "duplicate");
-		maskID = getImageID();
+		
 		mask_title = getTitle();
 		rename(mask_title + "_mask");
 		mask_title = getTitle();
@@ -142,7 +142,7 @@ for (i=0; i<list.length; i++) {
 				run("Open", "stack");
 				run("Watershed", "stack");
 			
-		
+		maskID = getImageID();
 		//Split channels and create reference
 		selectImage(original);
 		Property.set("CompositeProjection", "null");
@@ -162,9 +162,10 @@ for (i=0; i<list.length; i++) {
 			}
 			C++;
 			run("Set Measurements...", "area mean standard min centroid center perimeter bounding fit shape feret's integrated median skewness area_fraction limit display redirect=[" + redir + "] decimal=3");
-			selectWindow(mask);
+			//selectWindow(mask);
+			selectImage(maskID);
 			run("Select None");
-			Stack.setSlice(q);
+			//Stack.setSlice(q);
 			run("Analyze Particles...", "size=6-Infinity pixel circularity=0.0-1.00 display exclude clear summarize overlay add");
 			//run("Create Selection");
 			selectWindow(redir);

@@ -11,7 +11,7 @@ import_csv <- function(path, str = NULL){
   ## Reformat strings to generate comprehensible variable names matching xlsx files
   var_csv = c()
   for(k in file.list){
-    assign(sub("*.csv","",basename(k)),read.csv(k),envir = parent.frame())
+    assign(sub("*.csv","",basename(k)),read.csv(k, skip = 1),envir = parent.frame())
     var_csv = c(var_csv, sub("*.csv","",basename(k)))
   }
   assign("var_csv", var_csv, envir = parent.frame())

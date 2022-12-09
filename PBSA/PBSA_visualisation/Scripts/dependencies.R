@@ -29,12 +29,5 @@ library(LaplacesDemon)
 ### Function depedencies
 
 source("Scripts/Functions/import_xlsx.R")
-source("Scripts/Functions/mass_coloc.R")
-source("Scripts/Functions/copy_data.R")
-source("Scripts/Functions/move_outlines.R")
 source("Scripts/Functions/data_consolidation.R")
 source("Scripts/Functions/import_csv.R")
-source("Scripts/Functions/coloc_particles.R")
-source("Scripts/Functions/scatterBar.Norm.R")
-source("Scripts/Functions/max_min_norm.R")
-source("Scripts/Functions/add_prefix_varname.R")
