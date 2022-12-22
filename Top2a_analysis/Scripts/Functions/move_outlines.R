@@ -6,14 +6,15 @@ move_outlines <- function(path){
   str = c("outlines.tiff","overlay_montage.tif")
   if(!dir.exists(paste0(path,"/","Mask_Outlines"))){
     dir.create(paste0(path,"/","Mask_Outlines"))
+  } else {
   tiff <- list.files(path = path,  # Identify all CSV files
                        pattern = paste(str,collapse="|"), full.names = TRUE)
-  for (i in tiff) {
-    file.copy(i,paste0(path,"/","Mask_Outlines"))
-    file.remove(i)
+  for (n in tiff) {
+    file.rename(n,paste0(path,"/","Mask_Outlines/",basename(n)))
+    #file.remove(i)
   }
-  } else {
-    print("Images are already moved")
+  
   }
+  print("Images are moved")
 }
   

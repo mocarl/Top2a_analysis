@@ -11,13 +11,18 @@ source("Scripts/dependencies.R")
 ### Import and arrange data into one dataframe
 import_xlsx("Data/V4/20221027", c("results"))
 import_xlsx("Data/top_down/Rep_1", c("results"))
-import_xlsx("Data/V4/Rep_2", c("results"))
+import_xlsx("Data/top_down/Top2a_top", c("results"))
 import_csv("Data/V4/Rep_1")
 import_csv("Data/V4/Rep_2", c("img_stat"))
 import_csv("Data/top_down/Rep_2", c("img_stat"))
 ## Arrange data into single data frame
 var = setdiff(ls(), lsf.str())
 
+file.list = list.files(c("/Users/mocarl/Documents/GitHub/Top2a_analysis/Top2a_analysis/Data/top_down/Top2a_top/Rep_1",
+                       "/Users/mocarl/Documents/GitHub/Top2a_analysis/Top2a_analysis/Data/top_down/Top2a_top/Rep_2",
+                       "/Users/mocarl/Documents/GitHub/Top2a_analysis/Top2a_analysis/Data/top_down/Top2a_top/Rep_3",
+                       "/Users/mocarl/Documents/GitHub/Top2a_analysis/Top2a_analysis/Data/top_down/Top2a_top/Rep_4",
+                       "/Users/mocarl/Documents/GitHub/Top2a_analysis/Top2a_analysis/Data/top_down/Top2a_top/Rep_5"), full.names = TRUE, recursive = TRUE)
 
 ## Add prefixes to data
 add_prefix_varname(var_csv, "Rep_2")
@@ -211,7 +216,18 @@ batch_rep=c(rep(c(rep(1,2),
             rep(1,2),
             rep(2,2),
             rep(1,3),
-            rep(2,3)
+            rep(2,3),
+            rep(1,2),
+            rep(2,2),
+            c(1,2),
+            rep(1,2),
+            rep(2,2),
+            rep(1,3),
+            rep(2,3),
+            c(rep(c(rep(1,2),
+              rep(2,2)),2),
+              rep(1,3),
+              rep(2,3))
             )
 
 tech_rep=c(rep(c(1),14),
@@ -219,7 +235,11 @@ tech_rep=c(rep(c(1),14),
            rep(c(1),2),
            rep(c(3),4),
            rep(c(2),2),
-           rep(c(3),10)
+           rep(c(3),10),
+           rep(c(4),4),
+           rep(c(3),2),
+           rep(c(4),10),
+           rep(c(5),14)
            )
 
 condition = c(rep(c(rep(c("100nM MYC"),4),
@@ -229,8 +249,14 @@ condition = c(rep(c(rep(c("100nM MYC"),4),
               rep(c(rep(c("100nM MYC"),4),
                     rep(c("250nM pFLIP-FUSE-sc"),2),
                     rep(c("25nM Top2\u03b1"),4),
-                    rep(c("25nM Top2\u03b1 \n100nM MYC"),6)
-                    )))
+                    rep(c("25nM Top2\u03b1 \n100nM MYC"),6))),
+                    rep(c(rep(c("100nM MYC"),4),
+                          rep(c("250nM pFLIP-FUSE-sc"),2),
+                          rep(c("25nM Top2\u03b1"),4),
+                          rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
+                          c(rep(c("100nM MYC"),4),
+                            rep(c("25nM Top2\u03b1"),4),rep(c("25nM Top2\u03b1 \n100nM MYC"),6))
+                          )))
 
 channel = c(rep(c(rep(c("MYC","YOYO1"),2),
                 rep(c("MYC","Top2\u03b1", "YOYO1"),2),
@@ -239,12 +265,29 @@ channel = c(rep(c(rep(c("MYC","YOYO1"),2),
                 rep(c("MYC","YOYO1"),2),
                 rep(c("YOYO1"),2),
             rep(c("Top2\u03b1","YOYO1"),2),
-                rep(c("MYC","Top2\u03b1", "YOYO1"),2)
-                
+                rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            rep(c("MYC","YOYO1"),2),
+            rep(c("YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            c(rep(c("MYC","YOYO1"),2),
+              rep(c("Top2\u03b1","YOYO1"),2),rep(c("MYC","Top2\u03b1", "YOYO1"),2))
             )
 
  
-
+batch_rep = rep(c(rep(1,3),
+              rep(2,3),
+              rep(1,2),
+              rep(2,2)),5)
+tech_rep = c(rep(1,10),
+             rep(2,10),
+             rep(3,10),
+             rep(4,10),
+             rep(5,10))
+condition = rep(c(rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
+            rep(c("25nM Top2\u03b1"),4)),5)
+channel = rep(c(rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2)),5)
 
 
 

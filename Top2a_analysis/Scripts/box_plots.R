@@ -99,10 +99,11 @@ scale_fill_manual(
 
 ### Sum of pixel intensity per particle with median
 tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Supp 4/","box_plot_YOYOcontrol.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data, aes(y =Area, x = Plasmid, fill = Experiment)) +
+ggplot(temp.data, aes(y =Mean, x = Experiment, fill = Channel)) +
+  geom_text(aes(label=..count..), y=0, stat='count', colour="red", size=3)+
   geom_boxplot()+
-  facet_wrap(~Plasmid, scale="free")+
-  labs(title = 'Particle area distribution', subtitle = "10nM Top2\u03b1 - 250nM pFLIP/pFLIP-FUSE - supercoiled/relaxed - w/o ATP w/o YOYO1", caption = "1 replicate without YOYO1") +
+  facet_wrap(~Experiment + TechRepeat, scale="free")+
+  labs(title = 'Particle mean intensity', subtitle = "25nM Top2\u03b1 - 100nM MYC - 250nM pFLIP/pFLIP-FUSE - supercoiled - w/o ATP", caption = "") +
   theme(
     legend.position="right",
     panel.spacing = unit(0.1, "lines"),
@@ -110,13 +111,11 @@ ggplot(temp.data, aes(y =Area, x = Plasmid, fill = Experiment)) +
     axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
   theme_minimal()+
   xlab("Particle integrated intensity") +
-  ylab("")+
+  ylab("")
   ylim(0,5)
-  scale_x_discrete(breaks=var,labels=ylab)+
-  scale_fill_manual(
-    name = "Population", values = c("#E1BE6A", "#40B0A6"),
-    labels = c(paste0("Non-colocalised"),paste0("Colocalised")))
+
 dev.off()
+
 
 
 

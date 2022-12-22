@@ -166,7 +166,7 @@ for (i=0; i<list.length; i++) {
 			selectImage(maskID);
 			run("Select None");
 			//Stack.setSlice(q);
-			run("Analyze Particles...", "size=6-Infinity pixel circularity=0.0-1.00 display exclude clear summarize overlay add");
+			run("Analyze Particles...", "size=6-Infinity pixel circularity=0.0-1.00 show=Nothing display exclude clear summarize overlay add");
 			//run("Create Selection");
 			selectWindow(redir);
 			rename(redir + chan[q]);
