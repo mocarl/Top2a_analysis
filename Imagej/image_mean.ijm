@@ -40,7 +40,7 @@ for (i=0; i<list.length; i++) {
       }
   }
  function processFile(path) {
-	if (endsWith(list[i], ".tif")) {
+	if (endsWith(list[i], ".tif") && indexOf(list[i],"montage") <=0) {
 		// Set options
 		run("Set Measurements...", "area mean standard modal min centroid center perimeter bounding fit shape feret's integrated median skewness area_fraction stack display redirect=None decimal=3");
 		//Open image and duplicate it. Create image IDs for later reference

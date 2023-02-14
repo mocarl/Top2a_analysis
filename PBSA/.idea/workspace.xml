@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4518bac5-4bc7-490c-bc31-5d70e37b8bd7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quickPBSA_trace_gen.py" beforeDir="false" afterPath="$PROJECT_DIR$/quickPBSA_trace_gen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quickPBSA_trace_step_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/quickPBSA_trace_step_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PBSA_visualisation/Scripts/data_import_fomat.R" beforeDir="false" afterPath="$PROJECT_DIR$/PBSA_visualisation/Scripts/data_import_fomat.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PBSA_visualisation/Scripts/dependencies.R" beforeDir="false" afterPath="$PROJECT_DIR$/PBSA_visualisation/Scripts/dependencies.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PBSA_visualisation/Scripts/histogram.R" beforeDir="false" afterPath="$PROJECT_DIR$/PBSA_visualisation/Scripts/histogram.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

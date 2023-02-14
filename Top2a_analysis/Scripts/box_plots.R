@@ -99,10 +99,10 @@ scale_fill_manual(
 
 ### Sum of pixel intensity per particle with median
 tiff(file=paste("/Users/mocarl/Library/CloudStorage/OneDrive-ChalmersStudents/Top2a_project/Figures/Supp 4/","box_plot_YOYOcontrol.tiff"), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
-ggplot(temp.data, aes(y =Mean, x = Experiment, fill = Channel)) +
+ggplot(temp.data[temp.data$Channel == "Top2\u03b1",], aes(y =Mean, x = Experiment, fill = Channel)) +
   geom_text(aes(label=..count..), y=0, stat='count', colour="red", size=3)+
   geom_boxplot()+
-  facet_wrap(~Experiment + TechRepeat, scale="free")+
+  facet_wrap(~Experiment, scale="free")+
   labs(title = 'Particle mean intensity', subtitle = "25nM Top2\u03b1 - 100nM MYC - 250nM pFLIP/pFLIP-FUSE - supercoiled - w/o ATP", caption = "") +
   theme(
     legend.position="right",
@@ -111,8 +111,8 @@ ggplot(temp.data, aes(y =Mean, x = Experiment, fill = Channel)) +
     axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
   theme_minimal()+
   xlab("Particle integrated intensity") +
-  ylab("")
-  ylim(0,5)
+  ylab("")+
+  ylim(0,1000)
 
 dev.off()
 

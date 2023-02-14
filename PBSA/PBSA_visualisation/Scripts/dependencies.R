@@ -24,6 +24,7 @@ library(scales)
 library(plotly)
 library(diptest)
 library(LaplacesDemon)
+library(RColorBrewer)
 ####
 
 ### Function depedencies
@@ -31,3 +32,4 @@ library(LaplacesDemon)
 source("Scripts/Functions/import_xlsx.R")
 source("Scripts/Functions/data_consolidation.R")
 source("Scripts/Functions/import_csv.R")
+source("Scripts/Functions/padNAcolumns.R")

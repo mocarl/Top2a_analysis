@@ -9,7 +9,7 @@ rm(list = ls())
 source("Scripts/dependencies.R")
 
 ### Import and arrange data into one dataframe
-import_xlsx("Data/V4/20221027", c("results"))
+import_xlsx("Data/top_down/Top2a_top/noDNA/20221207", c("results"))
 import_xlsx("Data/top_down/Rep_1", c("results"))
 import_xlsx("Data/top_down/Top2a_top", c("results"))
 import_csv("Data/V4/Rep_1")
@@ -275,19 +275,54 @@ channel = c(rep(c(rep(c("MYC","YOYO1"),2),
             )
 
  
-batch_rep = rep(c(rep(1,3),
+batch_rep = c(rep(1,3),
               rep(2,3),
               rep(1,2),
-              rep(2,2)),5)
+              rep(2,2),
+              rep(1,3),
+              rep(2,3),
+              rep(1,2),
+              rep(2,2),
+              rep(1,2),
+              rep(2,2),
+              rep(1,3),
+              rep(2,3),
+              rep(1,2),
+              rep(2,2),
+              rep(1,3),
+              rep(2,3),
+              rep(1,2),
+              rep(2,2),
+              rep(1,3),
+              rep(2,3))
 tech_rep = c(rep(1,10),
              rep(2,10),
              rep(3,10),
              rep(4,10),
              rep(5,10))
-condition = rep(c(rep(c("25nM Top2\u03b1 \n100nM MYC"),6),
-            rep(c("25nM Top2\u03b1"),4)),5)
-channel = rep(c(rep(c("MYC","Top2\u03b1", "YOYO1"),2),
-            rep(c("Top2\u03b1","YOYO1"),2)),5)
+
+condition = c(rep(c("25nM Top2\u03b1 100nM MYC"),6),
+            rep(c("25nM Top2\u03b1"),4),
+            rep(c("25nM Top2\u03b1 100nM MYC"),6),
+            rep(c("25nM Top2\u03b1"),4),
+            rep(c("25nM Top2\u03b1"),4),
+            rep(c("25nM Top2\u03b1 100nM MYC"),6),
+            rep(c("25nM Top2\u03b1"),4),
+            rep(c("25nM Top2\u03b1 100nM MYC"),6),
+            rep(c("25nM Top2\u03b1"),4),
+            rep(c("25nM Top2\u03b1 100nM MYC"),6))
+
+channel = c(rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),2))
+
 
 
 

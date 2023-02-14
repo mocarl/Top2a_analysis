@@ -2,22 +2,8 @@
 ## Script consolidates and copies data to R_project folders
 ## Author: Carl Möller mocarl@chalmers.se
 
-folder = c("/Volumes/Carl_Ext_2/EXPERIMENTS/20221022/25nM_Top2a_BSAslides/Rep_1/25nM_Top2a_BSAslides_rep1",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221022/25nM_Top2a_BSAslides/Rep_2/25nM_Top2a_BSAslides_rep2",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221022/25nM_Top2a_100nM_MYC_BSAslides/Rep_1/25nM_Top2a_100nM_MYC_BSAslides_rep1",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221022/25nM_Top2a_100nM_MYC_BSAslides/Rep_2/25nM_Top2a_100nM_MYC_BSAslides_rep2",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221027/25nM_Top2_100nM_MYC_BSAslide/Rep_1/25nM_Top2_100nM_MYC_BSAslide_rep1",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221027/25nM_Top2_100nM_MYC_BSAslide/Rep_2/25nM_Top2_100nM_MYC_BSAslide_rep2",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221027/25nM_Top2_BSAslide/Rep_1/25nM_Top2_BSAslide_rep1",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221027/25nM_Top2_BSAslide/Rep_2/25nM_Top2_BSAslide_rep2",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221205/Top2a_25nM_BSAslides/Rep 1/Top2a_25nM_BSAslides_rep1",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221205/Top2a_25nM_BSAslides/Rep 2/Top2a_25nM_BSAslides_rep2",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221205/Top2a_25nM_MYC_100nM_BSAslides/Rep 1/Top2a_25nM_MYC_100nM_BSAslides_rep1",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221205/Top2a_25nM_MYC_100nM_BSAslides/Rep 2/Top2a_25nM_MYC_100nM_BSAslides_rep2",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221207/Top2a_25nM_BSAslides/Rep 1/Top2a_25nM_BSAslides_rep1",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221207/Top2a_25nM_BSAslides/Rep 2/Top2a_25nM_BSAslides_rep2",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221207/Top2a_25nM_MYC_100nM_BSAslides/Rep 1/Top2a_25nM_MYC_100nM_BSAslides_rep1",
-           "/Volumes/Carl_Ext_2/EXPERIMENTS/20221207/Top2a_25nM_MYC_100nM_BSAslides/Rep 2/Top2a_25nM_MYC_100nM_BSAslides_rep2")
+folder = c("/Users/mocarl/Documents/GitHub/Top2a_analysis/Top2a_analysis/Data/top_down/Top2a_top/noDNA/20221207/Top2a_25nM_MYC_100nM_woDNA_BSAslides_rep1",
+           "/Users/mocarl/Documents/GitHub/Top2a_analysis/Top2a_analysis/Data/top_down/Top2a_top/noDNA/20221207/Top2a_25nM_noDNA_BSAslides_rep1")
 for (i in folder){
 
 #Move mask imagease from Imagej to a separate folder for easier overview
