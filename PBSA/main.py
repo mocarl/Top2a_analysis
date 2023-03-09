@@ -8,18 +8,21 @@ import tifffile
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    tiffstack = '/Volumes/Carl_Ext_2/EXPERIMENTS/20221207_Top2a_25nM_BSAslides_Rep_1_sample1_PBSA/PBSA/377/Experiment-377-Scene-2-P2.tif'
-    tsout = '/Volumes/Carl_Ext_2/EXPERIMENTS/20221207_Top2a_25nM_BSAslides_Rep_1_sample1_PBSA/PBSA/377/Experiment-377-Scene-2-P2_Results.csv'
+    path = '/Volumes/Carl_Ext_3/20230223/25nM_Top2_100nM_MYC_noDNA/Rep1/PBSA/Experiment-160-Scene-4-P1.czi_split/Experiment-160-Scene-4-P1'
+    tiffstack = path + '.tif'
+    print(tiffstack)
+    tsout = path + '.tif' + '_Results.csv'
+    print(tsout)
 
     rpeak = 3  # radius of the ROI
     rbg1 = 4  # inner radius of the background ring
     rbg2 = 6  # outer radius of the background ring
     mindist = 6  # minimum distance between ROI peak positions
 
-    pbsa.trace_extraction.extract_traces_localization(tiffstack, tsout, rpeak, rbg1, rbg2, mindist);
+    pbsa.trace_extraction.extract_traces_localization(tiffstack, tsout, rpeak, rbg1, rbg2, mindist)
 
-    tracefile = '/Volumes/Carl_Ext_2/EXPERIMENTS/20221207_Top2a_25nM_BSAslides_Rep_1_sample1_PBSA/PBSA/377/Experiment-377-Scene-2-P2_difference.csv'
-
+    tracefile = path + '_difference.csv'
+    print(tracefile)
     KVthreshold = 75
     KV_maxiter = 100
 
@@ -29,7 +32,7 @@ if __name__ == '__main__':
 
 
     result = pd.read_csv(
-        '/Volumes/Carl_Ext_2/EXPERIMENTS/20221207_Top2a_25nM_BSAslides_Rep_1_sample1_PBSA/PBSA/377/Experiment-377-Scene-2-P2_difference_result.csv',
+        path + '_difference_result.csv',
         header=1)
     # Filter flagged traces
     result = result.loc[result['flag'] == 1, :]
@@ -46,6 +49,6 @@ if __name__ == '__main__':
     ax[1].hist(fluors_full[:, 0], bins=np.arange(30) + 0.5)
     fig.set_size_inches([10, 4])
 
-    plt.savefig('/Volumes/Carl_Ext_2/EXPERIMENTS/20221207_Top2a_25nM_BSAslides_Rep_1_sample1_PBSA/PBSA/377/Experiment-377-Scene-2-P2_trace_histo.svg', dpi=300, format="svg")
+    plt.savefig(path + '_trace_histo.svg', dpi=300, format="svg")
 
    # plt.show()

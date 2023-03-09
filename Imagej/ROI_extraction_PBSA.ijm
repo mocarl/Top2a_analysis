@@ -42,7 +42,7 @@ for (i=0; i<list.length; i++) {
       }
   }
  function processFile(path) {
-	if (endsWith(list[i], ".czi") || endsWith(list[i], ".tif")) {
+	if (endsWith(list[i], ".tif")) {
 		// Set options
 		run("Colors...", "foreground=black background=black selection=lightgray");
 		//Open image and duplicate it. Create image IDs for later reference
