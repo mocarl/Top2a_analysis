@@ -10,7 +10,7 @@ import tifffile
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     paths = [
-            '/Volumes/Carl_Ext_3/20230223/25nM_Top2_100nM_MYC_noDNA/Rep1/PBSA/Experiment-160-Scene-3-P2.czi_split/Experiment-160-Scene-3-P2']
+            '/Volumes/Carl_Ext_3/20230301/25nM_Top2_noDNA/Rep2/PBSA/Experiment-06-Scene-4-P2.czi_split/Experiment-06-Scene-4-P2']
 
     for path in paths:
         tiffstack = path + '.tif'
@@ -23,7 +23,7 @@ if __name__ == '__main__':
         rbg2 = 6  # outer radius of the background ring
         mindist = 6  # minimum distance between ROI peak positions
 
-        pbsa.trace_extraction.extract_traces_localization(tiffstack, tsout, rpeak, rbg1, rbg2, mindist, binning=1)
+        pbsa.trace_extraction.extract_traces_localization(tiffstack, tsout, rpeak, rbg1, rbg2, mindist, binning=20)
         tracefile = path + '_difference.csv'
         print(tracefile)
 

@@ -1,6 +1,6 @@
 ## Import data and format it for further analysis
 
-import_csv("Data/Top2a_25nM_BSAslides_PBSA","result")
+import_csv("Data/20230301/25nM_Top2_100nM_MYC_noDNA","result")
 
 output_path = "Output/"
 figure_title = "Top2a"
