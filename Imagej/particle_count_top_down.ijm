@@ -119,7 +119,7 @@ for (i=0; i<list.length; i++) {
 		} else {
 		for (j = 1; j <= channels; j++) {
 			Stack.setChannel(j);
-			run("Enhance Contrast", "saturated=0.35");
+			run("Enhance Contrast...", "saturated=0.35");
 		}
 		selectImage(original);
 		run("Duplicate...", "duplicate");

@@ -3,7 +3,7 @@
 ## Author: Carl Möller mocarl@chalmers.se
 
 move_outlines <- function(path){
-  str = c("outlines.tiff","overlay_montage.tif")
+  str = c("outlines.tiff","overlay_montage.tif","_montage.tif")
   if(!dir.exists(paste0(path,"/","Mask_Outlines"))){
     dir.create(paste0(path,"/","Mask_Outlines"))
   } else {
