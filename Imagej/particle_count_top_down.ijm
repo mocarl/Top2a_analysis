@@ -71,7 +71,6 @@ for (i=0; i<list.length; i++) {
 		}
 		//Array.print(luts);
 		if (channels < 2) {
-
 		selectImage(original);
 		run("Duplicate...", "duplicate");
 		mask_title = getTitle();
