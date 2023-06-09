@@ -11,9 +11,9 @@ source("Scripts/dependencies.R")
 ### Import and arrange data into one dataframe
 import_xlsx("Data/top_down/Top2a_top/noDNA/20221207", c("results"))
 import_xlsx("Data/top_down/Rep_1", c("results"))
-import_xlsx("Data/top_down/Top2a_top", c("results"))
+import_xlsx("Data/activity_assay/Top2_down", c("results"))
 import_csv("Data/V4/Rep_1")
-import_csv("Data/V4/Rep_2", c("img_stat"))
+import_csv("Data/activity_assay/Top2_down", c("img_stat"))
 import_csv("Data/top_down/Rep_2", c("img_stat"))
 ## Arrange data into single data frame
 var = setdiff(ls(), lsf.str())
@@ -230,13 +230,73 @@ channel = c(rep(c("MYC","Top2\u03b1", "YOYO1"),2),
             rep(c("Top2\u03b1","YOYO1"),2),
             rep(c("MYC","Top2\u03b1", "YOYO1"),2))
 
+####
+concentration = c(rep(c("10nM Top2\u03b1 \n100nM MYC"),6),
+                  rep(c("10nM Top2\u03b1"),4),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
+                  rep(c("10nM Top2\u03b1"),2),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
+                  rep(c("10nM Top2\u03b1"),2),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),6),
+                  rep(c("10nM Top2\u03b1"),4),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
+                  rep(c("10nM Top2\u03b1"),2),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
+                  rep(c("10nM Top2\u03b1"),2),
+                  rep(c("10nM Top2\u03b1"),2),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),6),
+                  rep(c("10nM Top2\u03b1"),2),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
+                  rep(c("10nM Top2\u03b1"),4),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3)
+                  )
 
+condition = c(rep("1hr on ice",3),
+              rep("5min on ice",3),
+              rep("1hr on ice",2),
+              rep("5min on ice",2),
+              rep("Hexanediol",5),
+              rep("RNA+pGL3",5),
+              rep("Hexanediol",3),
+              rep("5min on ice",3),
+              rep("Hexanediol",2),
+              rep("5min on ice",2),
+              rep("RNA+pGL3",5),
+              rep("1hr on ice",5),
+              rep("5min on ice",5),
+              rep("RNA+pGL3",5),
+              rep("5min on ice",5),
+              rep("1hr on ice",5)
+              )
+
+channel = c(rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),1),
+            rep(c("Top2\u03b1","YOYO1"),1),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),1),
+            rep(c("Top2\u03b1","YOYO1"),1),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),1),
+            rep(c("Top2\u03b1","YOYO1"),1),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),1),
+            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),1),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),1),
+            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),1)
+            )
+batch_rep = rep(1,60)
+tech_rep = c(rep(1,20),
+             rep(2,20),
+             rep(3,20))
 
 
 #Concatenate all the imported data in var into one large data.frame
 temp.data = data.frame()
 for (i in 1:length(var)){
-  data = data.frame(get(paste0(var[i])),Experiment = paste(condition[i]), Channel=paste(channel[i]), BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]))
+  data = data.frame(get(paste0(var[i])),Concentration = paste(concentration[i]), Condition = paste(condition[i]), Channel=paste(channel[i]), BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]), Plasmid=plasmid)
   #names(data)[36] = unlist(str_split(names(data[36]), "[.]"))[-1] #Change column naming for compatability
   #names(data)[37] = paste(unlist(str_split(names(data[37]), "[.]"))[-1],collapse  = "_") #Change column naming for compatability
   #q = quantile(data$Area,c(0.05,0.95)) # Calculate 5th and 95th percentile
@@ -263,7 +323,8 @@ condition = c(rep(c("250nM pFLIP-FUSE-sc"),2),
   channel = c(rep(c("YOYO1", "Top2\u03b1", "MYC")))
 temp.data.imgstat = data.frame()
 for (i in 1:length(var_img_stat)){
-  data = data.frame(get(paste0(var_img_stat[i])), Experiment = paste(condition[i]), Channel = paste(channel[i]),BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]))
+  #data = data.frame(get(paste0(var_img_stat[i])), Experiment = paste(condition[i]), Channel = paste(channel[i]),BatchRepeat = paste(batch_rep[i]), TechRepeat = paste(tech_rep[i]))
+  data = data.frame(get(paste0(var_img_stat[i])))
   temp.data.imgstat = rbind(temp.data.imgstat, data)
 }
 

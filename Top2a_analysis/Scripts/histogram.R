@@ -184,9 +184,9 @@ thresh = mean(temp.data.thresh_mean$Mean)
   tiff(file=paste("Output/top_down/","histogram_mean_control_DNA_background_adjusted.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
   dev.off()
   
-  ggplot(temp.data.sub_mean[temp.data.sub_mean$Mean > 100,], aes(x = IntDen, fill = Experiment)) +
+  ggplot(temp.data.sub_mean[temp.data.sub_mean$Mean > 0,], aes(x = Mean, fill = Concentration)) +
     geom_histogram(aes(y=..density..),alpha = 0.9, bins = 250, position = "identity")+
-    #facet_wrap(.~TechRepeat, scale="free")+
+    facet_wrap(.~Condition, scale="free")+
     scale_fill_viridis(alpha=0.5, discrete = TRUE)+
     labs(title = 'Mean particle intensity -  DNA channel background adjusted ', subtitle = "Mean intensity of DNA particles - top_down analysis", caption = "")+
     theme(
@@ -199,7 +199,7 @@ thresh = mean(temp.data.thresh_mean$Mean)
     #scale_fill_manual(
     #name = "Channel", values = c("#5982e2", "#e55151", "#225500"),
     #labels = unique(channel))
-    xlim(0,20000)
+    xlim(0,1000)
 
   ggplot(temp.data.thresh_mean_control[temp.data.thresh_mean_control$Channel == "YOYO1",], aes(x = Area, fill = Experiment)) +
     geom_histogram(aes(y=..density..),alpha = 0.9, bins = 150, position = "identity")+
