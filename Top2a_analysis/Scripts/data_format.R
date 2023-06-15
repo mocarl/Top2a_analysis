@@ -5,15 +5,19 @@
 
 ### Subtracts image mean from particle mean value
 temp.data.sub_mean = temp.data
-for (i in temp.data.imgstat$Label) {
+for (i in unique(temp.data.imgstat$Label)) {
   if(dim(temp.data.sub_mean[temp.data$Label == i,])[1]>0){
     temp.data.sub_mean[temp.data.sub_mean$Label == i,"Mean"]=(temp.data.sub_mean[temp.data.sub_mean$Label == i,"Mean"]-temp.data.imgstat[temp.data.imgstat$Label == i,"Mean"])#/(temp.data.imgstat[temp.data.imgstat$Label == i,"Max"]-temp.data.imgstat[temp.data.imgstat$Label == i,"Min"])
   } else {
     next
   }
 }
-
-
+### Remove any mean values below 0
+temp.data.sub_mean = temp.data.sub_mean[temp.data.sub_mean$Mean > 0,]
+### Recalcualtes the IntDen variable based on the corrected mean value for the particle
+for (i in 1:dim(temp.data.sub_mean)[1]) {
+    temp.data.sub_mean[i,"IntDen"] = temp.data.sub_mean[i,"Area"]*temp.data.sub_mean[i,"Mean"]
+}
 
 ### Discards all data below 75th quartile
 ### Channel, batch and technical repeat speciifc

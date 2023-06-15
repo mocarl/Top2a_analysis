@@ -231,24 +231,28 @@ channel = c(rep(c("MYC","Top2\u03b1", "YOYO1"),2),
             rep(c("MYC","Top2\u03b1", "YOYO1"),2))
 
 ####
+plasmid = "pGL3"
 concentration = c(rep(c("10nM Top2\u03b1 \n100nM MYC"),6),
                   rep(c("10nM Top2\u03b1"),4),
                   rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
                   rep(c("10nM Top2\u03b1"),2),
                   rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
+                  rep(c("10nM Top2\u03b1"),2), #T1
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
+                  rep(c("10nM Top2\u03b1"),2),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
+                  rep(c("10nM Top2\u03b1"),2),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
+                  rep(c("10nM Top2\u03b1"),2),
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
+                  rep(c("10nM Top2\u03b1"),2),#T2
                   rep(c("10nM Top2\u03b1"),2),
                   rep(c("10nM Top2\u03b1 \n100nM MYC"),6),
-                  rep(c("10nM Top2\u03b1"),4),
-                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
                   rep(c("10nM Top2\u03b1"),2),
                   rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
                   rep(c("10nM Top2\u03b1"),2),
                   rep(c("10nM Top2\u03b1"),2),
-                  rep(c("10nM Top2\u03b1 \n100nM MYC"),6),
-                  rep(c("10nM Top2\u03b1"),2),
-                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3),
-                  rep(c("10nM Top2\u03b1"),4),
-                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3)
+                  rep(c("10nM Top2\u03b1 \n100nM MYC"),3)#T3
                   )
 
 condition = c(rep("1hr on ice",3),
@@ -256,16 +260,14 @@ condition = c(rep("1hr on ice",3),
               rep("1hr on ice",2),
               rep("5min on ice",2),
               rep("Hexanediol",5),
-              rep("RNA+pGL3",5),
-              rep("Hexanediol",3),
-              rep("5min on ice",3),
-              rep("Hexanediol",2),
-              rep("5min on ice",2),
-              rep("RNA+pGL3",5),
+              rep("RNA+pGL3",5),#T1
+              rep("5min on ice",5),
               rep("1hr on ice",5),
+              rep("Hexanediol",5),
+              rep("RNA+pGL3",5),#T2
               rep("5min on ice",5),
               rep("RNA+pGL3",5),
-              rep("5min on ice",5),
+              rep("Hexanediol",5),
               rep("1hr on ice",5)
               )
 
@@ -274,13 +276,16 @@ channel = c(rep(c("MYC","Top2\u03b1", "YOYO1"),2),
             rep(c("MYC","Top2\u03b1", "YOYO1"),1),
             rep(c("Top2\u03b1","YOYO1"),1),
             rep(c("MYC","Top2\u03b1", "YOYO1"),1),
-            rep(c("Top2\u03b1","YOYO1"),1),
-            rep(c("MYC","Top2\u03b1", "YOYO1"),2),
-            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),1),#T1
             rep(c("MYC","Top2\u03b1", "YOYO1"),1),
             rep(c("Top2\u03b1","YOYO1"),1),
             rep(c("MYC","Top2\u03b1", "YOYO1"),1),
-            rep(c("Top2\u03b1","YOYO1"),2),
+            rep(c("Top2\u03b1","YOYO1"),1),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),1),
+            rep(c("Top2\u03b1","YOYO1"),1),
+            rep(c("MYC","Top2\u03b1", "YOYO1"),1),
+            rep(c("Top2\u03b1","YOYO1"),1),#T2
+            rep(c("Top2\u03b1","YOYO1"),1),
             rep(c("MYC","Top2\u03b1", "YOYO1"),2),
             rep(c("Top2\u03b1","YOYO1"),1),
             rep(c("MYC","Top2\u03b1", "YOYO1"),1),

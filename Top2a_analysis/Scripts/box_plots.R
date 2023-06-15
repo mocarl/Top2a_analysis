@@ -67,15 +67,15 @@ df = data.frame(IntDen = temp.data.sub_mean_75th[,"Area"]*temp.data.sub_mean_75t
 
 tiff(file=paste("Output/top_down/","box_plot_Mean_zoom_DNA_top2_background_adjusted_thresholded_avg.tiff", sep = ""), width = 10, height = 10, units = "in", res = 300, pointsize = 7)
 dev.off()
-svg(file=paste("Output/top_down/","box_plot_mean_zoom_DNA_top2_background_adjusted_thresholded_avg.svg",sep = ""), width = 10, height = 10, pointsize = 7)
+svg(file=paste("Output/top_down/","box_plot_intden_corrected_20230615.svg",sep = ""), width = 10, height = 10, pointsize = 7)
 dev.off()
-
-ggplot(temp.data.sub_mean[(temp.data.sub_mean$Channel == "YOYO1" & temp.data.sub_mean$Mean > 100) | (temp.data.sub_mean$Channel == "Top2\u03b1" & temp.data.sub_mean$Mean > 100),], aes(y = Mean, x = Experiment, fill = Channel)) +
+#(temp.data.sub_mean$Channel == "YOYO1" & temp.data.sub_mean$Mean > 100) | (temp.data.sub_mean$Channel == "Top2\u03b1" & temp.data.sub_mean$Mean > 100),
+ggplot(temp.data.sub_mean_agg[!temp.data.sub_mean_agg$Channel == "MYC",], aes(y = IntDen, x = Experiment, fill = Channel)) +
   geom_boxplot(outlier.alpha = 0.1, width=0.5, position = position_dodge(0.6))+
   #geom_text(aes(label=..count..), y=0, stat='count', colour="red", size=3)+
-  #facet_wrap(.~TechRepeat + Experiment, scale="free_x")+
+  #facet_wrap(.~Experiment, scale="free_x")+
   scale_fill_viridis(alpha=0.5, discrete = TRUE)+
-  labs(title = 'Mean intensity - thresholded on DNA particles', subtitle = "10nM Top2\u03b1 - 100nM MYC - 250nM pFLIP/pFLIP-FUSE - supercoiled - w/o ATP", caption = "3 Technical replicates - 2 within batch replicatses")+
+  labs(title = 'Mean integrated intensity', subtitle = "25nM Top2\u03b1 - 100nM MYC - 250nM pFLIP-FUSE - supercoiled - w/o ATP", caption = "5 Technical replicates - 2 within batch replicatses")+
   theme(
     legend.position="right",
     panel.spacing.x = unit(0, "lines"),
@@ -83,8 +83,8 @@ ggplot(temp.data.sub_mean[(temp.data.sub_mean$Channel == "YOYO1" & temp.data.sub
     axis.text.y = element_text(vjust = 0, face="bold", size = 10))+
   theme_minimal()+
   #xlab("Particle area distribution") +
-  #ylab("\u03bcm^2")+
-  ylab("a.u.")+
+  ylab("Mean intensity/\u03bcm^2 per particle")
+  #ylab("a.u.")
   ylim(0,2500)
   #coord_fixed(ratio = 0.4)
   #scale_x_discrete(breaks=unique(rep),labels=ylab)
