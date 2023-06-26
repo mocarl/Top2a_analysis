@@ -64,7 +64,7 @@ for (i=0; i<list.length; i++) {
 		for (p = 0; p < chan.length; p++) {
 		if (chan[p] == "Yoyo1") {
 			luts = Array.concat(luts,"Green");
-		} else if (chan[p] == "AF647") {
+		} else if (chan[p] == "AF647" || chan[p] == "At647") {
 		luts = Array.concat(luts,"Red");
 		} else if (chan[p] == "AF546") {
 		luts = Array.concat(luts,"Orange Hot");
